@@ -1,11 +1,9 @@
 # SpecialPlugin
-========================================
 .net core 3.1 插件化测试，使用AssemblyLoadContext可在不用的插件中使用不同版本的类库
 
 插件需要放在主程序目录UnitPackages文件夹下，如..\UnitPackages\SpecialPlugin.DapperOneDemo\你的插件dll
 
 ## .csproj
-------------------------------------------------------------
 
 插件必需配置
 ```
@@ -30,7 +28,6 @@ xcopy样例
 
 
 ## PluginModule
-------------------------------------------------------------
 插件必须在某一个类中继承PluginModule
 ```
 public class StartupModule : PluginModule
@@ -100,7 +97,6 @@ public class StartupModule : PluginModule
 ```
 
 ## CreateHostBuilder
-------------------------------------------------------------
 ```
 public static IHostBuilder CreateHostBuilder(string[] args)
 {
