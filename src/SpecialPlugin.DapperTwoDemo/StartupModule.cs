@@ -1,23 +1,21 @@
 ﻿using Autofac;
-using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
-using SpecialPlugin.DapperOneDemo.Dtos;
-using SpecialPlugin.DapperOneDemo.Models;
+using SpecialPlugin.Quartz;
 using System;
 using System.Reflection;
 
-namespace SpecialPlugin.DapperOneDemo
+namespace SpecialPlugin.DapperTwoDemo
 {
-    public class StartupModule : PluginModule
+    public class StartupModule : PluginModule, IRegisterQuartz
     {
         private readonly string _name;
 
         public StartupModule(IConfiguration configuration) : base(configuration)
         {
-            _name = "DapperOneDemoJob";
+            _name = "DapperTwoDemoJob";
         }
 
         public override void RegisterAssemblyTypes(ContainerBuilder containerBuilder)
@@ -34,13 +32,6 @@ namespace SpecialPlugin.DapperOneDemo
             containerBuilder.RegisterModule(autoFacModule);
         }
 
-        public override void RegisterAutoMapper(IMapperConfigurationExpression mapExpression)
-        {
-            Console.WriteLine($"{_name},RegisterAutoMapper");
-
-            mapExpression.CreateMap<BookTag, BookTagDto>();
-        }
-
         public override void RegisterConfigure(IApplicationBuilder app)
         {
             Console.WriteLine($"{_name},RegisterConfigure");
@@ -55,14 +46,14 @@ namespace SpecialPlugin.DapperOneDemo
         {
             Console.WriteLine($"{_name},RegisterConfigureServices");
 
-            services.Configure<DapperOneDemoOptions>(Configuration.GetSection("DapperOneDemoOptions"));
+            services.Configure<DapperTwoDemoOptions>(Configuration.GetSection("DapperTwoDemoOptions"));
         }
 
-        public override void RegisterQuartzJob(IServiceCollectionQuartzConfigurator configurator)
+        public void RegisterQuartzConfigure(IServiceCollectionQuartzConfigurator configurator)
         {
             Console.WriteLine($"{_name},RegisterQuartzJob");
 
-            string key = "DapperOneDemoJob";
+            string key = "DapperTwoDemoJob";
 
             var jobKey = new JobKey(key);
 

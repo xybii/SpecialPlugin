@@ -3,13 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpecialPlugin.Hosting", "SpecialPlugin.Hosting\SpecialPlugin.Hosting.csproj", "{74655429-9BF6-4449-8361-BDAB6BB3B961}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecialPlugin.Hosting", "src\SpecialPlugin.Hosting\SpecialPlugin.Hosting.csproj", "{74655429-9BF6-4449-8361-BDAB6BB3B961}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpecialPlugin", "SpecialPlugin\SpecialPlugin.csproj", "{CD58B8E9-91B8-4E5A-B89E-02D1F9DECFA4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecialPlugin", "src\SpecialPlugin\SpecialPlugin.csproj", "{CD58B8E9-91B8-4E5A-B89E-02D1F9DECFA4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpecialPlugin.DapperOneDemo", "SpecialPlugin.DapperOneDemo\SpecialPlugin.DapperOneDemo.csproj", "{30608D2E-74B0-4584-A13A-0FF170B69247}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecialPlugin.DapperOneDemo", "src\SpecialPlugin.DapperOneDemo\SpecialPlugin.DapperOneDemo.csproj", "{30608D2E-74B0-4584-A13A-0FF170B69247}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpecialPlugin.DapperTwoDemo", "SpecialPlugin.DapperTwoDemo\SpecialPlugin.DapperTwoDemo.csproj", "{2375C84E-964E-4484-BCBA-60790476FD44}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecialPlugin.DapperTwoDemo", "src\SpecialPlugin.DapperTwoDemo\SpecialPlugin.DapperTwoDemo.csproj", "{2375C84E-964E-4484-BCBA-60790476FD44}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpecialPlugin.AutoMapper", "src\SpecialPlugin.AutoMapper\SpecialPlugin.AutoMapper.csproj", "{9CA2F8FA-A81E-43A9-A351-DE53532803FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpecialPlugin.Quartz", "src\SpecialPlugin.Quartz\SpecialPlugin.Quartz.csproj", "{0972831B-8D65-433D-A94F-5BFC7840A1E9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{2375C84E-964E-4484-BCBA-60790476FD44}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2375C84E-964E-4484-BCBA-60790476FD44}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2375C84E-964E-4484-BCBA-60790476FD44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CA2F8FA-A81E-43A9-A351-DE53532803FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CA2F8FA-A81E-43A9-A351-DE53532803FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CA2F8FA-A81E-43A9-A351-DE53532803FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CA2F8FA-A81E-43A9-A351-DE53532803FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0972831B-8D65-433D-A94F-5BFC7840A1E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0972831B-8D65-433D-A94F-5BFC7840A1E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0972831B-8D65-433D-A94F-5BFC7840A1E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0972831B-8D65-433D-A94F-5BFC7840A1E9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

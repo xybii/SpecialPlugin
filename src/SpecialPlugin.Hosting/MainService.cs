@@ -1,4 +1,8 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using SpecialPlugin.AutoMapper;
+using SpecialPlugin.Quartz;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -43,7 +47,24 @@ namespace SpecialPlugin.Hosting
 
         public static IHostBuilder CreateHostBuilder(string[] args)
         {
-            return PluginExtensions.CreateHostBuilder(args, typeof(Startup), "http://*:12000");
+            var modules = PluginExtensions.SelectPluginModule(options =>
+            {
+                options.ConfigurationRoot = new ConfigurationBuilder().AddJsonFile("appsettings.json", optional: true).Build();
+            });
+
+            return PluginExtensions.CreateHostBuilder(args, modules,
+                services =>
+                {
+                    services.AddPluginAutoMapper(modules, true);
+
+                    services.AddPluginQuartz(modules);
+                },
+                webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+
+                    webBuilder.UseUrls("http://*:15555");
+                });
         }
     }
 }

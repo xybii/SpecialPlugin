@@ -12,6 +12,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\SpecialPlugin.AutoMapper\SpecialPlugin.AutoMapper.csproj">
+			<Private>false</Private>
+			<ExcludeAssets>runtime</ExcludeAssets>
+		</ProjectReference>
+		<ProjectReference Include="..\SpecialPlugin.Quartz\SpecialPlugin.Quartz.csproj">
+			<Private>false</Private>
+			<ExcludeAssets>runtime</ExcludeAssets>
+		</ProjectReference>
 		<ProjectReference Include="..\SpecialPlugin\SpecialPlugin.csproj">
 			<Private>false</Private>
 			<ExcludeAssets>runtime</ExcludeAssets>
@@ -19,7 +27,7 @@
 	</ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-		<Exec Command="xcopy &quot;$(SolutionDir)SpecialPlugin.DapperTwoDemo\bin\Debug\netcoreapp3.1&quot; &quot;$(SolutionDir)SpecialPlugin.Hosting\bin\Debug\netcoreapp3.1\UnitPackages\SpecialPlugin.DapperTwoDemo&quot; /S /Y /C /E" />
+		<Exec Command="xcopy &quot;$(SolutionDir)src\SpecialPlugin.DapperTwoDemo\bin\Debug\netcoreapp3.1&quot; &quot;$(SolutionDir)src\SpecialPlugin.Hosting\bin\Debug\netcoreapp3.1\UnitPackages\SpecialPlugin.DapperTwoDemo&quot; /S /Y /C /E" />
 	</Target>
 
 </Project>

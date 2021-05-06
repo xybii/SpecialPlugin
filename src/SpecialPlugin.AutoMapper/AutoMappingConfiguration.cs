@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using System;
 
-namespace SpecialPlugin
+namespace SpecialPlugin.AutoMapper
 {
     public interface IAutoMappingConfiguration
     {
@@ -19,8 +19,6 @@ namespace SpecialPlugin
 
     public abstract class AutoMappingConfiguration<T> : IAutoMappingConfiguration<T> where T : class
     {
-        public Type BaseType = typeof(T);
-
         public abstract void Map(IMapperConfigurationExpression cfg);
     }
 }
