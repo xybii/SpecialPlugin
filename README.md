@@ -108,18 +108,18 @@ public static IHostBuilder CreateHostBuilder(string[] args)
         options.ConfigurationRoot = new ConfigurationBuilder().AddJsonFile("appsettings.json", optional: true).Build();
     });
 
-    return PluginExtensions.CreateHostBuilder(args, modules,
-        services =>
+    return PluginExtensions.CreateHostBuilder(args, modules)
+        .ConfigureServices((_, services) =>
         {
             services.AddPluginAutoMapper(modules, true);
 
             services.AddPluginQuartz(modules);
-        },
-        webBuilder =>
+        })
+        .ConfigureWebHostDefaults(webBuilder =>
         {
             webBuilder.UseStartup<Startup>();
 
             webBuilder.UseUrls("http://*:15555");
-        });
+        })
 }
 ```

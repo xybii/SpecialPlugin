@@ -47,45 +47,43 @@ namespace SpecialPlugin
 
             foreach (var item in dics)
             {
-                var file = item.GetFiles("SpecialPlugin.*.dll").FirstOrDefault();
+                var files = item.GetFiles("SpecialPlugin.*.dll").ToList();
 
-                if (file == null)
+                foreach (var file in files)
                 {
-                    continue;
-                }
-
-                using (var fs = new FileStream(file.FullName, FileMode.Open))
-                {
-                    var context = new PluginLoadContext(file.FullName);
-
-                    var assembly = context.LoadFromStream(fs);
-
-                    var types = assembly.GetTypes()
-                    .Where(type => !string.IsNullOrWhiteSpace(type.Namespace))
-                    .Where(type => type.GetTypeInfo().IsClass && !type.GetTypeInfo().IsAbstract);
-
-                    var startupType = types.Where(type => type.BaseType == typeof(PluginModule)).FirstOrDefault();
-
-                    if (startupType == null)
+                    using (var fs = new FileStream(file.FullName, FileMode.Open))
                     {
-                        continue;
+                        var context = new PluginLoadContext(file.FullName);
+
+                        var assembly = context.LoadFromStream(fs);
+
+                        var types = assembly.GetTypes()
+                        .Where(type => !string.IsNullOrWhiteSpace(type.Namespace))
+                        .Where(type => type.GetTypeInfo().IsClass && !type.GetTypeInfo().IsAbstract);
+
+                        var startupType = types.Where(type => type.BaseType == typeof(PluginModule)).FirstOrDefault();
+
+                        if (startupType == null)
+                        {
+                            continue;
+                        }
+
+                        var startupParams = new object[1]
+                        {
+                            selectPluginModuleOptions.ConfigurationRoot
+                        };
+
+                        var startup = assembly.CreateInstance(startupType.FullName, true, BindingFlags.Default, null, startupParams, null, null) as PluginModule;
+
+                        pluginModules.Add(startup);
                     }
-
-                    var startupParams = new object[1]
-                    {
-                        selectPluginModuleOptions.ConfigurationRoot
-                    };
-
-                    var startup = assembly.CreateInstance(startupType.FullName, true, BindingFlags.Default, null, startupParams, null, null) as PluginModule;
-
-                    pluginModules.Add(startup);
                 }
             }
 
             return pluginModules;
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args, IList<PluginModule> pluginModules, Action<IServiceCollection> servicesAction, Action<IWebHostBuilder> configureAction)
+        public static IHostBuilder CreateHostBuilder(string[] args, IList<PluginModule> pluginModules)
         {
             var assemblyList = new List<Assembly>();
 
@@ -117,11 +115,6 @@ namespace SpecialPlugin
                 }
             });
 
-            if (servicesAction != null)
-            {
-                serviceConfigActionList.Add(servicesAction);
-            }
-
             serviceConfigActionList.Add(services => services.AddSingleton<IStartupFilter>(pluginStartupFilter));
 
             return Host.CreateDefaultBuilder(args)
@@ -129,23 +122,18 @@ namespace SpecialPlugin
                 {
                     builder.RegisterModule(autoFacModule);
                 }))
-                .ConfigureWebHostDefaults(webBuilder =>
+                .ConfigureServices((_, services) =>
                 {
-                    configureAction.Invoke(webBuilder);
-
-                    webBuilder.ConfigureServices(services =>
+                    foreach (var item in serviceConfigActionList)
                     {
-                        foreach (var item in serviceConfigActionList)
-                        {
-                            item.Invoke(services);
-                        }
-                    });
+                        item.Invoke(services);
+                    }
                 });
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args, Action<SelectPluginModuleOptions> configAction, Action<IServiceCollection> servicesAction, Action<IWebHostBuilder> configureAction)
+        public static IHostBuilder CreateHostBuilder(string[] args, Action<SelectPluginModuleOptions> configAction)
         {
-            return CreateHostBuilder(args, SelectPluginModule(configAction), servicesAction, configureAction);
+            return CreateHostBuilder(args, SelectPluginModule(configAction));
         }
     }
 }
