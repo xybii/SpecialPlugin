@@ -2,6 +2,17 @@
 
 .net core 3.1 插件化测试，使用AssemblyLoadContext可在不用的插件中使用不同版本的类库
 
+Packages
+--------
+
+MyGet Pre-release feed: https://www.myget.org/gallery/dapper
+
+| Package | NuGet |
+| ------- | ------------ |
+| [SpecialPlugin](https://www.nuget.org/packages/SpecialPlugin/) | [![SpecialPlugin](https://img.shields.io/nuget/v/SpecialPlugin.svg)](https://www.nuget.org/packages/SpecialPlugin/) |
+| [SpecialPlugin.AutoMapper](https://www.nuget.org/packages/SpecialPlugin.AutoMapper/) | [![SpecialPlugin.AutoMapper](https://img.shields.io/nuget/v/SpecialPlugin.AutoMapper.svg)](https://www.nuget.org/packages/SpecialPlugin.AutoMapper/) |
+| [SpecialPlugin.Quartz](https://www.nuget.org/packages/SpecialPlugin.Quartz/) | [![SpecialPlugin.Quartz](https://img.shields.io/nuget/v/SpecialPlugin.Quartz.svg)](https://www.nuget.org/packages/SpecialPlugin.Quartz/) |
+
 ## .csproj
 
 插件必需配置
@@ -12,6 +23,10 @@
   <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 </PropertyGroup>
 ...
+
+Project样例
+
+... csharp
 <ItemGroup>
   <ProjectReference Include="..\SpecialPlugin\SpecialPlugin.csproj">
     <Private>false</Private>
@@ -19,6 +34,25 @@
   </ProjectReference>
 </ItemGroup>
 ```
+
+Nuget样例
+
+... csharp
+<ItemGroup>
+		<PackageReference Include="SpecialPlugin" Version="0.0.1">
+			<Private>false</Private>
+			<ExcludeAssets>runtime</ExcludeAssets>
+		</PackageReference>
+		<PackageReference Include="SpecialPlugin.AutoMapper" Version="0.0.1">
+			<Private>false</Private>
+			<ExcludeAssets>runtime</ExcludeAssets>
+		</PackageReference>
+		<PackageReference Include="SpecialPlugin.Quartz" Version="0.0.1">
+			<Private>false</Private>
+			<ExcludeAssets>runtime</ExcludeAssets>
+		</PackageReference>
+</ItemGroup>
+...
 
 xcopy样例
 
@@ -49,7 +83,7 @@ public class StartupModule : PluginModule, IRegisterAutoMapper, IRegisterQuartz
 
         AutoFacModule autoFacModule = new AutoFacModule(o =>
         {
-          o.RegisterAssemblyTypes(assembly).AsImplementedInterfaces().InstancePerLifetimeScope();
+            o.RegisterAssemblyTypes(assembly).AsImplementedInterfaces().InstancePerLifetimeScope();
         });
 
         containerBuilder.RegisterModule(autoFacModule);
