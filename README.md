@@ -37,18 +37,18 @@ Nuget样例
 
 ... csharp
 <ItemGroup>
-		<PackageReference Include="SpecialPlugin" Version="0.0.1">
-			<Private>false</Private>
-			<ExcludeAssets>runtime</ExcludeAssets>
-		</PackageReference>
-		<PackageReference Include="SpecialPlugin.AutoMapper" Version="0.0.1">
-			<Private>false</Private>
-			<ExcludeAssets>runtime</ExcludeAssets>
-		</PackageReference>
-		<PackageReference Include="SpecialPlugin.Quartz" Version="0.0.1">
-			<Private>false</Private>
-			<ExcludeAssets>runtime</ExcludeAssets>
-		</PackageReference>
+  <PackageReference Include="SpecialPlugin" Version="0.0.1">
+    <Private>false</Private>
+    <ExcludeAssets>runtime</ExcludeAssets>
+  </PackageReference>
+  <PackageReference Include="SpecialPlugin.AutoMapper" Version="0.0.1">
+    <Private>false</Private>
+    <ExcludeAssets>runtime</ExcludeAssets>
+  </PackageReference>
+  <PackageReference Include="SpecialPlugin.Quartz" Version="0.0.1">
+    <Private>false</Private>
+    <ExcludeAssets>runtime</ExcludeAssets>
+  </PackageReference>
 </ItemGroup>
 ...
 
