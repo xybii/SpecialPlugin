@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
@@ -58,6 +59,21 @@ namespace SpecialPlugin.DapperOneDemo
             Console.WriteLine($"{_name},RegisterConfigureServices");
 
             services.Configure<DapperOneDemoOptions>(Configuration.GetSection("DapperOneDemoOptions"));
+
+            services.AddMvc().ConfigureApplicationPartManager(apm =>
+            {
+                var assembly = Assembly.GetExecutingAssembly();
+
+                foreach (var part in new DefaultApplicationPartFactory().GetApplicationParts(assembly))
+                {
+                    apm.ApplicationParts.Add(part);
+                }
+
+                foreach (var part in new CompiledRazorAssemblyApplicationPartFactory().GetApplicationParts(assembly))
+                {
+                    apm.ApplicationParts.Add(part);
+                }
+            });
         }
 
         public void RegisterQuartzConfigure(IServiceCollectionQuartzConfigurator configurator)

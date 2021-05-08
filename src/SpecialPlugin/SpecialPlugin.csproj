@@ -1,7 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Version>0.0.1</Version>
+		<PackageProjectUrl>https://github.com/xybii/SpecialPlugin</PackageProjectUrl>
 	</PropertyGroup>
 
 	<ItemGroup>

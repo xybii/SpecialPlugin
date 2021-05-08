@@ -47,7 +47,7 @@ namespace SpecialPlugin
 
             foreach (var item in dics)
             {
-                var files = item.GetFiles("SpecialPlugin.*.dll").ToList();
+                var files = item.GetFiles(selectPluginModuleOptions.SearchPackagePattern).ToList();
 
                 foreach (var file in files)
                 {

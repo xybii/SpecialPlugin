@@ -1,15 +1,18 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Version>0.0.1</Version>
+		<PackageProjectUrl>https://github.com/xybii/SpecialPlugin</PackageProjectUrl>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Quartz.AspNetCore" Version="3.3.2" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Quartz.AspNetCore" Version="3.3.2" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\SpecialPlugin\SpecialPlugin.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\SpecialPlugin\SpecialPlugin.csproj" />
+	</ItemGroup>
 
 </Project>
