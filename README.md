@@ -5,8 +5,6 @@
 Packages
 --------
 
-MyGet Pre-release feed: https://www.myget.org/gallery/dapper
-
 | Package | NuGet |
 | ------- | ------------ |
 | [SpecialPlugin](https://www.nuget.org/packages/SpecialPlugin/) | [![SpecialPlugin](https://img.shields.io/nuget/v/SpecialPlugin.svg)](https://www.nuget.org/packages/SpecialPlugin/) |
