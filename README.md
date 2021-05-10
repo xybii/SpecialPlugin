@@ -2,11 +2,9 @@
 
 .net core 3.1 插件化测试，使用AssemblyLoadContext可在不用的插件中使用不同版本的类库
 
-Packages
+## Packages
+
 --------
-
-MyGet Pre-release feed: https://www.myget.org/gallery/dapper
-
 | Package | NuGet |
 | ------- | ------------ |
 | [SpecialPlugin](https://www.nuget.org/packages/SpecialPlugin/) | [![SpecialPlugin](https://img.shields.io/nuget/v/SpecialPlugin.svg)](https://www.nuget.org/packages/SpecialPlugin/) |
@@ -15,7 +13,7 @@ MyGet Pre-release feed: https://www.myget.org/gallery/dapper
 
 ## .csproj
 
-插件必需配置
+### 插件必需配置
 
 ``` csharp
 <PropertyGroup>
@@ -23,8 +21,6 @@ MyGet Pre-release feed: https://www.myget.org/gallery/dapper
   <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 </PropertyGroup>
 ...
-
-Project样例
 
 ... csharp
 <ItemGroup>
@@ -35,35 +31,32 @@ Project样例
 </ItemGroup>
 ```
 
-Nuget样例
-
-... csharp
+```  csharp
 <ItemGroup>
-		<PackageReference Include="SpecialPlugin" Version="0.0.1">
-			<Private>false</Private>
-			<ExcludeAssets>runtime</ExcludeAssets>
-		</PackageReference>
-		<PackageReference Include="SpecialPlugin.AutoMapper" Version="0.0.1">
-			<Private>false</Private>
-			<ExcludeAssets>runtime</ExcludeAssets>
-		</PackageReference>
-		<PackageReference Include="SpecialPlugin.Quartz" Version="0.0.1">
-			<Private>false</Private>
-			<ExcludeAssets>runtime</ExcludeAssets>
-		</PackageReference>
+  <PackageReference Include="SpecialPlugin" Version="0.0.1">
+    <Private>false</Private>
+    <ExcludeAssets>runtime</ExcludeAssets>
+  </PackageReference>
+  <PackageReference Include="SpecialPlugin.AutoMapper" Version="0.0.1">
+    <Private>false</Private>
+    <ExcludeAssets>runtime</ExcludeAssets>
+  </PackageReference>
+  <PackageReference Include="SpecialPlugin.Quartz" Version="0.0.1">
+  <Private>false</Private>
+    <ExcludeAssets>runtime</ExcludeAssets>
+  </PackageReference>
 </ItemGroup>
-...
+```
 
-xcopy样例
+### xcopy样例
 
 ``` csharp
 xcopy "$(SolutionDir)src\SpecialPlugin.DapperOneDemo\bin\Debug\netcoreapp3.1" "$(SolutionDir)src\SpecialPlugin.Hosting\bin\Debug\netcoreapp3.1\UnitPackages\SpecialPlugin.DapperOneDemo" /S /Y /C /E
 ```
 
-
 ## PluginModule
 
-插件必须在某一个类中继承PluginModule
+### 插件必须在某一个类中继承PluginModule
 
 ``` csharp
 public class StartupModule : PluginModule, IRegisterAutoMapper, IRegisterQuartz
