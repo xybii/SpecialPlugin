@@ -22,6 +22,8 @@
 </PropertyGroup>
 ...
 
+### 引用项目样例
+
 ... csharp
 <ItemGroup>
   <ProjectReference Include="..\SpecialPlugin\SpecialPlugin.csproj">
@@ -30,6 +32,8 @@
   </ProjectReference>
 </ItemGroup>
 ```
+
+### Nuget包样例
 
 ```  csharp
 <ItemGroup>
