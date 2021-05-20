@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+		<PackageReference Include="Dapper" Version="1.60.6" />
+		<PackageReference Include="MySql.Data" Version="6.10.9" />
+		<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+		<PackageReference Include="Quartz.AspNetCore" Version="3.2.4" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\src\SpecialPlugin.AspNetCore\SpecialPlugin.AspNetCore.csproj">
+			<Private>false</Private>
+			<ExcludeAssets>All</ExcludeAssets>
+		</ProjectReference>
+	</ItemGroup>
+
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+	  <Exec Command="xcopy &quot;$(SolutionDir)test\SpecialPlugin.Project.OldDapperDemo\bin\Debug\net5.0&quot; &quot;$(SolutionDir)test\SpecialPlugin.Hosting\bin\Debug\net5.0\UnitPackages\SpecialPlugin.Project.OldDapperDemo&quot; /S /Y /C /E" />
+	</Target>
+
+</Project>
