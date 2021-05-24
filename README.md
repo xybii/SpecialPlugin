@@ -19,11 +19,11 @@
   <TargetFramework>net5.0</TargetFramework>
   <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies> <!--生成插件所需要的依赖-->
 </PropertyGroup>
-...
+```
 
 ### 在插件中使用测试项目需要配置
 
-... csharp
+```csharp
 <ItemGroup>
   <ProjectReference Include="..\..\..\src\SpecialPlugin.AspNetCore\SpecialPlugin.AspNetCore.csproj">
     <Private>false</Private>
@@ -43,7 +43,7 @@
 </ItemGroup>
 ```
 
-### 使用SpecialPlugin.AspNetCore进行插件开发需要配置
+### 使用Volo.Abp进行插件开发需要配置
 
 ```  csharp
 <ItemGroup>
