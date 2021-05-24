@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace SpecialPlugin.Core
+namespace SpecialPlugin.Volo.Abp
 {
     public static class PluginExtensions
     {

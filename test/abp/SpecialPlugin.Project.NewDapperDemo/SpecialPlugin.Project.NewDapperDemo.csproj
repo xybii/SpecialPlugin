@@ -10,17 +10,14 @@
 		<PackageReference Include="MySql.Data" Version="8.0.25" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 		<PackageReference Include="Quartz.AspNetCore" Version="3.3.2" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\..\src\SpecialPlugin.AspNetCore\SpecialPlugin.AspNetCore.csproj">
+		<PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="4.3.1">
 			<Private>false</Private>
-			<ExcludeAssets>All</ExcludeAssets>
-		</ProjectReference>
+			<ExcludeAssets>runtime</ExcludeAssets>
+		</PackageReference>
 	</ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-	  <Exec Command="xcopy &quot;$(SolutionDir)test\SpecialPlugin.Project.NewDapperDemo\bin\Debug\net5.0&quot; &quot;$(SolutionDir)test\SpecialPlugin.Hosting\bin\Debug\net5.0\UnitPackages\SpecialPlugin.Project.NewDapperDemo&quot; /S /Y /C /E" />
+		<Exec Command="xcopy &quot;$(SolutionDir)test\abp\SpecialPlugin.Project.NewDapperDemo\bin\Debug\net5.0&quot; &quot;$(SolutionDir)test\abp\SpecialPlugin.Hosting\bin\Debug\net5.0\UnitPackages\SpecialPlugin.Project.NewDapperDemo&quot; /S /E /Y /C /I /V /D" />
 	</Target>
 
 </Project>

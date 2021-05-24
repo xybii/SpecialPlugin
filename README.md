@@ -1,52 +1,54 @@
 # SpecialPlugin
 
-.net core 3.1 插件化测试，使用AssemblyLoadContext可在不用的插件中使用不同版本的类库
+.net core 插件化，Api已经尽量Volo.Abp保持一致
 
 ## Packages
 
 --------
 | Package | NuGet |
 | ------- | ------------ |
-| [SpecialPlugin](https://www.nuget.org/packages/SpecialPlugin/) | [![SpecialPlugin](https://img.shields.io/nuget/v/SpecialPlugin.svg)](https://www.nuget.org/packages/SpecialPlugin/) |
-| [SpecialPlugin.AutoMapper](https://www.nuget.org/packages/SpecialPlugin.AutoMapper/) | [![SpecialPlugin.AutoMapper](https://img.shields.io/nuget/v/SpecialPlugin.AutoMapper.svg)](https://www.nuget.org/packages/SpecialPlugin.AutoMapper/) |
-| [SpecialPlugin.Quartz](https://www.nuget.org/packages/SpecialPlugin.Quartz/) | [![SpecialPlugin.Quartz](https://img.shields.io/nuget/v/SpecialPlugin.Quartz.svg)](https://www.nuget.org/packages/SpecialPlugin.Quartz/) |
+| [SpecialPlugin.Core](https://www.nuget.org/packages/SpecialPlugin.Core/) | [![SpecialPlugin.Core](https://img.shields.io/nuget/v/SpecialPlugin.Core.svg)](https://www.nuget.org/packages/SpecialPlugin.Core/) |
+| [SpecialPlugin.AspNetCore](https://www.nuget.org/packages/SpecialPlugin.AspNetCore/) | [![SpecialPlugin.AspNetCore](https://img.shields.io/nuget/v/SpecialPlugin.AspNetCore.svg)](https://www.nuget.org/packages/SpecialPlugin.AspNetCore/) |
 
 ## .csproj
 
-### 插件必需配置
+### 插件需要配置
 
 ``` csharp
 <PropertyGroup>
-  <TargetFramework>netcoreapp3.1</TargetFramework>
-  <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+  <TargetFramework>net5.0</TargetFramework>
+  <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies> <!--生成插件所需要的依赖-->
 </PropertyGroup>
 ...
 
-### 引用项目样例
+### 在插件中使用测试项目需要配置
 
 ... csharp
 <ItemGroup>
-  <ProjectReference Include="..\SpecialPlugin\SpecialPlugin.csproj">
+  <ProjectReference Include="..\..\..\src\SpecialPlugin.AspNetCore\SpecialPlugin.AspNetCore.csproj">
     <Private>false</Private>
     <ExcludeAssets>runtime</ExcludeAssets>
   </ProjectReference>
 </ItemGroup>
 ```
 
-### Nuget包样例
+### 使用SpecialPlugin.AspNetCore进行插件开发需要配置
 
 ```  csharp
 <ItemGroup>
-  <PackageReference Include="SpecialPlugin" Version="0.0.1">
+  <PackageReference Include="SpecialPlugin.AspNetCore" Version="0.0.1">
     <Private>false</Private>
     <ExcludeAssets>runtime</ExcludeAssets>
   </PackageReference>
-  <PackageReference Include="SpecialPlugin.AutoMapper" Version="0.0.1">
+</ItemGroup>
+```
+
+### 使用SpecialPlugin.AspNetCore进行插件开发需要配置
+
+```  csharp
+<ItemGroup>
+  <PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="4.3.1">
     <Private>false</Private>
-    <ExcludeAssets>runtime</ExcludeAssets>
-  </PackageReference>
-  <PackageReference Include="SpecialPlugin.Quartz" Version="0.0.1">
-  <Private>false</Private>
     <ExcludeAssets>runtime</ExcludeAssets>
   </PackageReference>
 </ItemGroup>
@@ -55,102 +57,80 @@
 ### xcopy样例
 
 ``` csharp
-xcopy "$(SolutionDir)src\SpecialPlugin.DapperOneDemo\bin\Debug\netcoreapp3.1" "$(SolutionDir)src\SpecialPlugin.Hosting\bin\Debug\netcoreapp3.1\UnitPackages\SpecialPlugin.DapperOneDemo" /S /Y /C /E
+xcopy "$(SolutionDir)test\net5.0\SpecialPlugin.Project.NewDapperDemo\bin\Debug\net5.0" "$(SolutionDir)test\net5.0\SpecialPlugin.Hosting\bin\Debug\net5.0\UnitPackages\SpecialPlugin.Project.NewDapperDemo" /S /E /Y /C /I /V /D
 ```
 
 ## PluginModule
 
-### 插件必须在某一个类中继承PluginModule
+使用Abp需要将 SpecialPlugin.AspNetCore.PluginModule 更换为 Volo.Abp.Modularity.AbpModule
 
 ``` csharp
-public class StartupModule : PluginModule, IRegisterAutoMapper, IRegisterQuartz
+[DependsOn(typeof(JobModule))]
+public class Module : SpecialPlugin.AspNetCore.PluginModule
 {
-    private readonly string _name;
-
-    public StartupModule(IConfiguration configuration) : base(configuration)
+    public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        _name = "DapperOneDemoJob";
-    }
+        var services = context.Services;
 
-    public override void RegisterAssemblyTypes(ContainerBuilder containerBuilder)
-    {
-        Console.WriteLine($"{_name},RegisterAssemblyTypes");
+        var configuration = services.GetConfiguration();
 
-        Assembly assembly = Assembly.GetExecutingAssembly();
+        services.Configure<NewDapperDemoOptions>(configuration.GetSection("NewDapperDemoOptions"));
 
-        AutoFacModule autoFacModule = new AutoFacModule(o =>
+        services.AddScoped<IJobService, JobService>();
+
+        services.AddMvc().ConfigureApplicationPartManager(apm =>
         {
-            o.RegisterAssemblyTypes(assembly).AsImplementedInterfaces().InstancePerLifetimeScope();
+            var assembly = Assembly.GetExecutingAssembly();
+
+            foreach (var part in new DefaultApplicationPartFactory().GetApplicationParts(assembly))
+            {
+                apm.ApplicationParts.Add(part);
+            }
+
+            foreach (var part in new CompiledRazorAssemblyApplicationPartFactory().GetApplicationParts(assembly))
+            {
+                apm.ApplicationParts.Add(part);
+            }
         });
 
-        containerBuilder.RegisterModule(autoFacModule);
+        services.AddAutoMapper(cfg =>
+        {
+            cfg.CreateMap<BookTag, BookTagDto>();
+        });
     }
 
-    public void RegisterAutoMapperConfigure(IMapperConfigurationExpression mapExpression)
+    public override void OnApplicationInitialization(ApplicationInitializationContext context)
     {
-        Console.WriteLine($"{_name},RegisterAutoMapper");
+        var app = context.GetApplicationBuilder();
 
-        mapExpression.CreateMap<BookTag, BookTagDto>();
-    }
-
-    public override void RegisterConfigure(IApplicationBuilder app)
-    {
-        Console.WriteLine($"{_name},RegisterConfigure");
-      
         using (var scope = app.ApplicationServices.CreateScope())
         {
-          scope.ServiceProvider.GetRequiredService<IJobService>().Execute(null).GetAwaiter().GetResult();
+            scope.ServiceProvider.GetRequiredService<IJobService>().Execute(null).GetAwaiter().GetResult();
         }
-    }
-
-    public override void RegisterConfigureServices(IServiceCollection services)
-    {
-        Console.WriteLine($"{_name},RegisterConfigureServices");
-
-        services.Configure<DapperOneDemoOptions>(Configuration.GetSection("DapperOneDemoOptions"));
-    }
-
-    public void RegisterQuartzConfigure(IServiceCollectionQuartzConfigurator configurator)
-    {
-        Console.WriteLine($"{_name},RegisterQuartzJob");
-
-        string key = "DapperOneDemoJob";
-
-        var jobKey = new JobKey(key);
-
-        configurator.AddJob<IJobService>(jobKey);
-
-        configurator.AddTrigger(t => t
-            .WithIdentity(key)
-            .ForJob(jobKey)
-            .WithCronSchedule("0 0/1 * * * ?").WithDescription(key)
-      );
     }
 }
 ```
 
-## CreateHostBuilder
+## Startup
+
+使用Abp需要将 SpecialPlugin.AspNetCore.PluginModule 更换为 Volo.Abp.Modularity.AbpModule
 
 ``` csharp
-public static IHostBuilder CreateHostBuilder(string[] args)
+public class Startup
 {
-    var modules = PluginExtensions.SelectPluginModule(options =>
+    public void ConfigureServices(IServiceCollection services)
     {
-        options.ConfigurationRoot = new ConfigurationBuilder().AddJsonFile("appsettings.json", optional: true).Build();
-    });
+        var moudules = SpecialPlugin.Core.PluginExtensions.GetPlugInSources<SpecialPlugin.AspNetCore.PluginModule>();
 
-    return PluginExtensions.CreateHostBuilder(args, modules)
-        .ConfigureServices((_, services) =>
+        services.AddApplication<HostModule>(o =>
         {
-            services.AddPluginAutoMapper(modules, true);
+            o.PlugInSources.AddRange(moudules);
+        });
+    }
 
-            services.AddPluginQuartz(modules);
-        })
-        .ConfigureWebHostDefaults(webBuilder =>
-        {
-            webBuilder.UseStartup<Startup>();
-
-            webBuilder.UseUrls("http://*:15555");
-        })
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+        app.InitializeApplication();
+    }
 }
 ```
