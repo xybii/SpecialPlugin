@@ -1,6 +1,8 @@
 # SpecialPlugin
 
-.net core 插件化，Api已经尽量Volo.Abp保持一致
+.net core 插件化，Api已经尽量Volo.Abp保持一致。
+
+SpecialPlugin.AspNetCore 实现请参考https://github.com/abpframework/abp，此包只做少量功能的移植。
 
 ## Packages
 
@@ -23,7 +25,7 @@
 
 ### 在插件中使用测试项目需要配置
 
-```csharp
+``` csharp
 <ItemGroup>
   <ProjectReference Include="..\..\..\src\SpecialPlugin.AspNetCore\SpecialPlugin.AspNetCore.csproj">
     <Private>false</Private>

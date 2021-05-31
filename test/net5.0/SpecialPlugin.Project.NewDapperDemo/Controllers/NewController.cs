@@ -3,13 +3,13 @@ using Dapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using MySql.Data.MySqlClient;
+//using SpecialPlugin.HttpApi.Controllers;
 using SpecialPlugin.Project.NewDapperDemo.Dtos;
 using SpecialPlugin.Project.NewDapperDemo.Models;
 using System.Threading.Tasks;
 
 namespace SpecialPlugin.Project.NewDapperDemo.Controllers
 {
-    [Route("New")]
     public class NewController : ControllerBase
     {
         private readonly IMapper _mapper;

@@ -12,6 +12,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\..\src\SpecialPlugin.AspNetCore\SpecialPlugin.AspNetCore.csproj" />
 		<ProjectReference Include="..\..\..\src\SpecialPlugin.Core\SpecialPlugin.Core.csproj" />
+		<ProjectReference Include="..\SpecialPlugin.HttpApi\SpecialPlugin.HttpApi.csproj" />
 	</ItemGroup>
 
 </Project>

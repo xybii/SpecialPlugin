@@ -7,11 +7,8 @@
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.15" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\src\SpecialPlugin.AspNetCore\SpecialPlugin.AspNetCore.csproj" />
-    <ProjectReference Include="..\..\..\src\SpecialPlugin.Core\SpecialPlugin.Core.csproj" />
+    <PackageReference Include="SpecialPlugin.AspNetCore" Version="0.0.1" />
+    <PackageReference Include="SpecialPlugin.Core" Version="0.0.1" />
   </ItemGroup>
 
 </Project>

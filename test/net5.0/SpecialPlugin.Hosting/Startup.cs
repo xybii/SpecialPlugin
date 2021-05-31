@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SpecialPlugin.AspNetCore;
+using SpecialPlugin.Core;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
 
@@ -20,6 +21,8 @@ namespace SpecialPlugin.Hosting
             {
                 o.PlugInSources.AddRange(moudules);
             });
+
+            PluginOptions.ShowTips = true;
 
             AddControllers(services);
         }

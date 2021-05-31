@@ -13,7 +13,7 @@ namespace SpecialPlugin.Project.NewDapperDemo
 
             services.AddQuartz(cfg =>
             {
-                cfg.UseMicrosoftDependencyInjectionJobFactory();
+                cfg.UseMicrosoftDependencyInjectionScopedJobFactory();
 
                 cfg.SchedulerId = "Scheduler-Core-NewDapperDemo";
 

@@ -1,6 +1,7 @@
 ﻿namespace SpecialPlugin.AspNetCore.Interface
 {
-    public interface IPluginModule : IRegisterConfigureServices, IRegisterConfigure
+    public interface IPluginModule
     {
+        void ConfigureServices(ServiceConfigurationContext context);
     }
 }

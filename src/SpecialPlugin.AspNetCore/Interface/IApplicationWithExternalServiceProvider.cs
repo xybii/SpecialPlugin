@@ -12,7 +12,7 @@ namespace SpecialPlugin.AspNetCore.Interface
 
         IServiceCollection Services { get; }
 
-        List<IModuleDescriptor> PluginModuleDescriptors { get; }
+        IReadOnlyList<IModuleDescriptor> Modules { get; }
 
         void SetServiceProvider(IServiceProvider serviceProvider);
 

@@ -50,5 +50,26 @@ namespace SpecialPlugin.Project.NewDapperDemo
                 scope.ServiceProvider.GetRequiredService<IJobService>().Execute(null).GetAwaiter().GetResult();
             }
         }
+
+        public override void OnPostApplicationInitialization(ApplicationInitializationContext context)
+        {
+            //var app = context.GetApplicationBuilder();
+
+            //var partManager = context.ServiceProvider.GetRequiredService<ApplicationPartManager>();
+
+            //var assembly = Assembly.GetExecutingAssembly();
+
+            //var pa = partManager.ApplicationParts.FirstOrDefault(o=> o.Name == "SpecialPlugin.HttpApi");
+
+            //if(pa != null)
+            //{
+            //    partManager.ApplicationParts.Remove(pa);
+            //}
+
+            //foreach (var part in new DefaultApplicationPartFactory().GetApplicationParts(assembly))
+            //{
+            //    partManager.ApplicationParts.Add(part);
+            //}
+        }
     }
 }

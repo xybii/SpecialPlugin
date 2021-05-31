@@ -1,6 +1,6 @@
 ﻿namespace SpecialPlugin.AspNetCore.Interface
 {
-    public interface IRegisterConfigure
+    public interface IOnApplicationInitialization
     {
         void OnApplicationInitialization(ApplicationInitializationContext context);
     }

@@ -12,31 +12,7 @@ namespace SpecialPlugin.AspNetCore
     {
         public static IServiceCollection AddApplication<TStartupModule>(this IServiceCollection services, Action<ApplicationCreationOptions> optionsAction) where TStartupModule : IPluginModule
         {
-            var options = new ApplicationCreationOptions();
-
-            optionsAction?.Invoke(options);
-
-            var context = new ServiceConfigurationContext(services);
-
-            var applicationWithExternalServiceProvider = new ApplicationWithExternalServiceProvider(typeof(TStartupModule), services, optionsAction);
-
-            services.AddSingleton(context);
-
-            foreach (var item in applicationWithExternalServiceProvider.PluginModuleDescriptors)
-            {
-                if (item.Instance is PluginModule module)
-                {
-                    module.ServiceConfigurationContext = context;
-
-                    module.ConfigureServices(context);
-
-                    module.ServiceConfigurationContext = null;
-                }
-            }
-
-            services.AddSingleton<IApplicationWithExternalServiceProvider>(applicationWithExternalServiceProvider);
-
-            services.AddSingleton<ObjectAccessor<IServiceProvider>>();
+            new ApplicationWithExternalServiceProvider(typeof(TStartupModule), services, optionsAction);
 
             services.AddSingleton<ObjectAccessor<IApplicationBuilder>>();
 

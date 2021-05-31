@@ -1,7 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -9,14 +10,11 @@
 		<PackageReference Include="Dapper" Version="1.60.6" />
 		<PackageReference Include="MySql.Data" Version="6.10.9" />
 		<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-		<PackageReference Include="Quartz.AspNetCore" Version="3.2.4" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\..\..\src\SpecialPlugin.AspNetCore\SpecialPlugin.AspNetCore.csproj">
+		<PackageReference Include="Quartz.AspNetCore" Version="3.3.0" />
+		<PackageReference Include="SpecialPlugin.AspNetCore" Version="0.0.1">
 			<Private>false</Private>
-			<ExcludeAssets>All</ExcludeAssets>
-		</ProjectReference>
+			<ExcludeAssets>runtime</ExcludeAssets>
+		</PackageReference>
 	</ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
