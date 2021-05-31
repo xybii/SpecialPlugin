@@ -1,8 +1,8 @@
 # SpecialPlugin
 
-.net core 插件化，Api已经尽量Volo.Abp保持一致。
+.net core 插件化，Api已经尽量Volo.Abp保持一致
 
-SpecialPlugin.AspNetCore 此包只做少量功能的移植，实现请参考https://github.com/abpframework/abp。
+SpecialPlugin.AspNetCore 此包只做少量功能的移植，实现请参考 https://github.com/abpframework/abp
 
 ## Packages
 
