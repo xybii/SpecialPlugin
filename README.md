@@ -23,17 +23,6 @@ SpecialPlugin.AspNetCore 此包只做少量功能的移植，实现请参考 htt
 </PropertyGroup>
 ```
 
-### 在插件中使用测试项目需要配置
-
-``` csharp
-<ItemGroup>
-  <ProjectReference Include="..\..\..\src\SpecialPlugin.AspNetCore\SpecialPlugin.AspNetCore.csproj">
-    <Private>false</Private>
-    <ExcludeAssets>runtime</ExcludeAssets>
-  </ProjectReference>
-</ItemGroup>
-```
-
 ### 使用SpecialPlugin.AspNetCore进行插件开发需要配置
 
 ```  csharp

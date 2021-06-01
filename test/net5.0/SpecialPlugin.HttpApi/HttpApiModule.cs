@@ -14,8 +14,6 @@ namespace SpecialPlugin.HttpApi
 
             services.AddSingleton<IActionDescriptorChangeProvider>(ActionDescriptorChangeProvider.Instance);
 
-            services.AddSingleton<IActionDescriptorChangeProvider>(ActionDescriptorChangeProvider.Instance);
-
             services.AddSingleton(ActionDescriptorChangeProvider.Instance);
         }
 

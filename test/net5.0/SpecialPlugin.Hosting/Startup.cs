@@ -15,7 +15,7 @@ namespace SpecialPlugin.Hosting
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            var moudules = Core.PluginExtensions.GetPlugInSources<PluginModule>();
+            var moudules = PluginExtensions.GetPlugInSources<PluginModule>();
 
             services.AddApplication<HostModule>(o =>
             {
