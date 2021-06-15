@@ -27,7 +27,7 @@ SpecialPlugin.AspNetCore 此包只做少量功能的移植，实现请参考 htt
 
 ```  csharp
 <ItemGroup>
-  <PackageReference Include="SpecialPlugin.AspNetCore" Version="0.0.1">
+  <PackageReference Include="SpecialPlugin.AspNetCore" Version="0.0.2">
     <Private>false</Private>
     <ExcludeAssets>runtime</ExcludeAssets>
   </PackageReference>
