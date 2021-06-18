@@ -7,5 +7,9 @@ namespace SpecialPlugin.AspNetCore
         public virtual void Initialize(ApplicationInitializationContext context, IPluginModule module)
         {
         }
+
+        public virtual void Shutdown(ApplicationShutdownContext context, IPluginModule module)
+        {
+        }
     }
 }

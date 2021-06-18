@@ -21,7 +21,7 @@ namespace SpecialPlugin.Project.NewDapperDemo.Controllers
             _options = options;
         }
 
-        [HttpGet]
+        [HttpGet(Order = 10)]
         public async Task<IActionResult> Get()
         {
             var connection = new MySqlConnection(_options.Value.DefaultConnection);

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.ApplicationParts;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using SpecialPlugin.AspNetCore;
 using SpecialPlugin.Project.NewDapperDemo.Dtos;
 using SpecialPlugin.Project.NewDapperDemo.Models;
@@ -20,21 +19,6 @@ namespace SpecialPlugin.Project.NewDapperDemo
 
             services.AddScoped<IJobService, JobService>();
 
-            services.AddMvc().ConfigureApplicationPartManager(apm =>
-            {
-                var assembly = Assembly.GetExecutingAssembly();
-
-                foreach (var part in new DefaultApplicationPartFactory().GetApplicationParts(assembly))
-                {
-                    apm.ApplicationParts.Add(part);
-                }
-
-                foreach (var part in new CompiledRazorAssemblyApplicationPartFactory().GetApplicationParts(assembly))
-                {
-                    apm.ApplicationParts.Add(part);
-                }
-            });
-
             services.AddAutoMapper(cfg =>
             {
                 cfg.CreateMap<BookTag, BookTagDto>();
@@ -45,31 +29,12 @@ namespace SpecialPlugin.Project.NewDapperDemo
         {
             var app = context.GetApplicationBuilder();
 
+            app.AddApplicationParts(Assembly.GetExecutingAssembly());
+
             using (var scope = app.ApplicationServices.CreateScope())
             {
                 scope.ServiceProvider.GetRequiredService<IJobService>().Execute(null).GetAwaiter().GetResult();
             }
-        }
-
-        public override void OnPostApplicationInitialization(ApplicationInitializationContext context)
-        {
-            //var app = context.GetApplicationBuilder();
-
-            //var partManager = context.ServiceProvider.GetRequiredService<ApplicationPartManager>();
-
-            //var assembly = Assembly.GetExecutingAssembly();
-
-            //var pa = partManager.ApplicationParts.FirstOrDefault(o=> o.Name == "SpecialPlugin.HttpApi");
-
-            //if(pa != null)
-            //{
-            //    partManager.ApplicationParts.Remove(pa);
-            //}
-
-            //foreach (var part in new DefaultApplicationPartFactory().GetApplicationParts(assembly))
-            //{
-            //    partManager.ApplicationParts.Add(part);
-            //}
         }
     }
 }

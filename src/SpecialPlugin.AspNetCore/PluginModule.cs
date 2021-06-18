@@ -1,4 +1,5 @@
-﻿using SpecialPlugin.AspNetCore.Interface;
+﻿using Microsoft.Extensions.DependencyInjection;
+using SpecialPlugin.AspNetCore.Interface;
 using System;
 using System.Reflection;
 
@@ -34,6 +35,10 @@ namespace SpecialPlugin.AspNetCore
         {
         }
 
+        public virtual void OnApplicationShutdown(ApplicationShutdownContext context)
+        {
+        }
+
         public static bool IsPluginModule(Type type)
         {
             var typeInfo = type.GetTypeInfo();
@@ -43,6 +48,19 @@ namespace SpecialPlugin.AspNetCore
                 !typeInfo.IsAbstract &&
                 !typeInfo.IsGenericType &&
                 typeof(IPluginModule).GetTypeInfo().IsAssignableFrom(type);
+        }
+
+        internal static void CheckAbpModuleType(Type moduleType)
+        {
+            if (!IsPluginModule(moduleType))
+            {
+                throw new ArgumentException("Given type is not an Plugin module: " + moduleType.AssemblyQualifiedName);
+            }
+        }
+
+        protected void Configure<TOptions>(Action<TOptions> configureOptions) where TOptions : class
+        {
+            ServiceConfigurationContext.Services.Configure(configureOptions);
         }
     }
 }

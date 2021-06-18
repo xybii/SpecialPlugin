@@ -11,7 +11,7 @@
 		<PackageReference Include="MySql.Data" Version="8.0.25" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 		<PackageReference Include="Quartz.AspNetCore" Version="3.3.2" />
-		<PackageReference Include="SpecialPlugin.AspNetCore" Version="0.0.1">
+		<PackageReference Include="SpecialPlugin.AspNetCore" Version="1.0.0">
 			<Private>false</Private>
 			<ExcludeAssets>runtime</ExcludeAssets>
 		</PackageReference>

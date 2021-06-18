@@ -22,7 +22,7 @@ namespace SpecialPlugin.Hosting
                 o.PlugInSources.AddRange(moudules);
             });
 
-            PluginOptions.ShowTips = true;
+            PluginLoadContext.ShowTips = true;
 
             AddControllers(services);
         }
@@ -60,8 +60,6 @@ namespace SpecialPlugin.Hosting
                     options.JsonSerializerOptions.Encoder = JavaScriptEncoder.Create(UnicodeRanges.All);
                 })
                 .AddNewtonsoftJson(options => { options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss"; });
-
-            services.AddControllersWithViews().AddControllersAsServices();
         }
     }
 }

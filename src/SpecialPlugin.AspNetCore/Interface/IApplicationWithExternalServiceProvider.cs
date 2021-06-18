@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace SpecialPlugin.AspNetCore.Interface
 {
-    public interface IApplicationWithExternalServiceProvider
+    public interface IApplicationWithExternalServiceProvider : IDisposable
     {
         Type StartupModuleType { get; }
 
@@ -17,5 +17,7 @@ namespace SpecialPlugin.AspNetCore.Interface
         void SetServiceProvider(IServiceProvider serviceProvider);
 
         void Initialize(IServiceProvider serviceProvider);
+
+        void Shutdown();
     }
 }

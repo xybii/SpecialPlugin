@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using SpecialPlugin.AspNetCore.Interface;
 using System;
 using System.Collections.Generic;
@@ -33,6 +34,7 @@ namespace SpecialPlugin.AspNetCore
                 options.Contributors.Add<OnPreApplicationInitializationModuleLifecycleContributor>();
                 options.Contributors.Add<OnApplicationInitializationModuleLifecycleContributor>();
                 options.Contributors.Add<OnPostApplicationInitializationModuleLifecycleContributor>();
+                options.Contributors.Add<OnApplicationShutdownModuleLifecycleContributor>();
             });
 
             var options = new ApplicationCreationOptions();
@@ -44,15 +46,77 @@ namespace SpecialPlugin.AspNetCore
             ConfigureServices();
         }
 
-        public void Shutdown()
+        public virtual void Shutdown()
         {
+            using (var scope = ServiceProvider.CreateScope())
+            {
+                var modules = Modules.Reverse().ToList();
 
+                var options = scope.ServiceProvider.GetRequiredService<IOptions<ModuleLifecycleOptions>>();
+
+                var lifecycleContributors = options.Value.Contributors
+                    .Select(ServiceProvider.GetRequiredService)
+                    .Cast<IModuleLifecycleContributor>()
+                    .ToArray();
+
+                var context = new ApplicationShutdownContext(scope.ServiceProvider);
+
+                foreach (var contributor in lifecycleContributors)
+                {
+                    foreach (var module in modules)
+                    {
+                        try
+                        {
+                            contributor.Shutdown(context, module.Instance);
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception($"An error occurred during the shutdown {contributor.GetType().FullName} phase of the module {module.Type.AssemblyQualifiedName}: {ex.Message}. See the inner exception for details.", ex);
+                        }
+                    }
+                }
+            }
         }
 
-        public void SetServiceProvider(IServiceProvider serviceProvider)
+        public virtual void Dispose()
+        {
+            //TODO: Shutdown if not done before?
+        }
+
+        protected virtual void SetServiceProvider(IServiceProvider serviceProvider)
         {
             ServiceProvider = serviceProvider;
             ServiceProvider.GetRequiredService<ObjectAccessor<IServiceProvider>>().Value = ServiceProvider;
+        }
+
+        protected virtual void InitializeModules()
+        {
+            using (var scope = ServiceProvider.CreateScope())
+            {
+                var context = new ApplicationInitializationContext(scope.ServiceProvider);
+
+                var options = scope.ServiceProvider.GetRequiredService<IOptions<ModuleLifecycleOptions>>();
+
+                var lifecycleContributors = options.Value.Contributors
+                    .Select(ServiceProvider.GetRequiredService)
+                    .Cast<IModuleLifecycleContributor>()
+                    .ToArray();
+
+                foreach (var contributor in lifecycleContributors)
+                {
+                    foreach (var module in Modules)
+                    {
+                        try
+                        {
+                            contributor.Initialize(context, module.Instance);
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception($"An error occurred during the initialize {contributor.GetType().FullName} phase of the module {module.Type.AssemblyQualifiedName}: {ex.Message}. See the inner exception for details.", ex);
+                        }
+                    }
+                }
+            }
         }
 
         protected List<IModuleDescriptor> LoadModules(IServiceCollection services, Type startupModuleType, ApplicationCreationOptions options)

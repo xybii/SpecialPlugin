@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 using SpecialPlugin.AspNetCore;
@@ -20,21 +19,6 @@ namespace SpecialPlugin.Project.OldDapperDemo
             services.Configure<OldDapperDemoOptions>(configuration.GetSection("OldDapperDemoOptions"));
 
             services.AddScoped<IJobService, JobService>();
-
-            services.AddMvc().ConfigureApplicationPartManager(apm =>
-            {
-                var assembly = Assembly.GetExecutingAssembly();
-
-                foreach (var part in new DefaultApplicationPartFactory().GetApplicationParts(assembly))
-                {
-                    apm.ApplicationParts.Add(part);
-                }
-
-                foreach (var part in new CompiledRazorAssemblyApplicationPartFactory().GetApplicationParts(assembly))
-                {
-                    apm.ApplicationParts.Add(part);
-                }
-            });
 
             services.AddAutoMapper(cfg =>
             {
@@ -68,6 +52,8 @@ namespace SpecialPlugin.Project.OldDapperDemo
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
         {
             var app = context.GetApplicationBuilder();
+
+            app.AddApplicationParts(Assembly.GetExecutingAssembly());
 
             using (var scope = app.ApplicationServices.CreateScope())
             {

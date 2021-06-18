@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SpecialPlugin.AspNetCore.Interface;
 using System;
 using System.Linq;
+using System.Reflection;
 
 namespace SpecialPlugin.AspNetCore
 {
@@ -25,7 +27,34 @@ namespace SpecialPlugin.AspNetCore
 
             var application = app.ApplicationServices.GetRequiredService<IApplicationWithExternalServiceProvider>();
 
+            var applicationLifetime = app.ApplicationServices.GetRequiredService<IHostApplicationLifetime>();
+
+            applicationLifetime.ApplicationStopping.Register(() =>
+            {
+                application.Shutdown();
+            });
+
+            applicationLifetime.ApplicationStopped.Register(() =>
+            {
+                application.Dispose();
+            });
+
             application.Initialize(app.ApplicationServices);
+        }
+
+        public static void AddApplicationParts(this IApplicationBuilder app, Assembly assembly)
+        {
+            var partManager = app.ApplicationServices.GetRequiredService<ApplicationPartManager>();
+
+            foreach (var part in new DefaultApplicationPartFactory().GetApplicationParts(assembly))
+            {
+                partManager.ApplicationParts.Add(part);
+            }
+
+            foreach (var part in new CompiledRazorAssemblyApplicationPartFactory().GetApplicationParts(assembly))
+            {
+                partManager.ApplicationParts.Add(part);
+            }
         }
 
         public static IApplicationBuilder GetApplicationBuilder(this ApplicationInitializationContext context)

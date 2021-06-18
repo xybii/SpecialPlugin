@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace SpecialPlugin.AspNetCore
 {
-    public class ApplicationWithExternalServiceProvider : ApplicationBase, IApplicationWithExternalServiceProvider
+    internal class ApplicationWithExternalServiceProvider : ApplicationBase, IApplicationWithExternalServiceProvider
     {
         internal ApplicationWithExternalServiceProvider(Type startupModuleType, IServiceCollection services, Action<ApplicationCreationOptions> optionsAction) : base(startupModuleType, services, optionsAction)
         {
@@ -17,37 +17,39 @@ namespace SpecialPlugin.AspNetCore
             services.AddTransient<OnPreApplicationInitializationModuleLifecycleContributor>();
 
             services.AddTransient<OnPostApplicationInitializationModuleLifecycleContributor>();
+
+            services.AddTransient<OnApplicationShutdownModuleLifecycleContributor>();
+        }
+
+        void IApplicationWithExternalServiceProvider.SetServiceProvider(IServiceProvider serviceProvider)
+        {
+            if (ServiceProvider != null)
+            {
+                if (ServiceProvider != serviceProvider)
+                {
+                    throw new Exception("Service provider was already set before to another service provider instance.");
+                }
+
+                return;
+            }
+
+            SetServiceProvider(serviceProvider);
         }
 
         public void Initialize(IServiceProvider serviceProvider)
         {
             SetServiceProvider(serviceProvider);
 
-            using (var scope = ServiceProvider.CreateScope())
+            InitializeModules();
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+
+            if (ServiceProvider is IDisposable disposableServiceProvider)
             {
-                var context = new ApplicationInitializationContext(scope.ServiceProvider);
-
-                var options = scope.ServiceProvider.GetRequiredService<IOptions<ModuleLifecycleOptions>>();
-
-                var lifecycleContributors = options.Value.Contributors
-                    .Select(serviceProvider.GetRequiredService)
-                    .Cast<IModuleLifecycleContributor>()
-                    .ToArray();
-
-                foreach (var contributor in lifecycleContributors)
-                {
-                    foreach (var module in Modules)
-                    {
-                        try
-                        {
-                            contributor.Initialize(context, module.Instance);
-                        }
-                        catch (Exception ex)
-                        {
-                            throw new Exception($"An error occurred during the initialize {contributor.GetType().FullName} phase of the module {module.Type.AssemblyQualifiedName}: {ex.Message}. See the inner exception for details.", ex);
-                        }
-                    }
-                }
+                disposableServiceProvider.Dispose();
             }
         }
     }

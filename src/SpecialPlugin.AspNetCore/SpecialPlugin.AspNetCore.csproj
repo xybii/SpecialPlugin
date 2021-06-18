@@ -3,10 +3,13 @@
 	<PropertyGroup>
 		<TargetFrameworks>netcoreapp3.1;net5.0</TargetFrameworks>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Version>0.0.2</Version>
+		<Version>1.0.0</Version>
 		<RepositoryUrl>https://github.com/xybii/SpecialPlugin</RepositoryUrl>
 		<PackageProjectUrl>https://github.com/xybii/SpecialPlugin</PackageProjectUrl>
 		<Description>Create a .NET Core application with plugins</Description>
+		<PackageTags>Module, Assembly, Plugin, Plugins</PackageTags>
+		<AssemblyVersion>1.0.0.0</AssemblyVersion>
+		<FileVersion>1.0.0.0</FileVersion>
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">

@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="SpecialPlugin.AspNetCore" Version="1.0.0">
+			<Private>false</Private>
+			<ExcludeAssets>runtime</ExcludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Exec Command="xcopy &quot;$(SolutionDir)test\netcoreapp3.1\SpecialPlugin.Project.ReplaceController\bin\Debug\netcoreapp3.1&quot; &quot;$(SolutionDir)test\netcoreapp3.1\SpecialPlugin.Hosting\bin\Debug\netcoreapp3.1\UnitPackages\SpecialPlugin.Project.ReplaceController&quot; /S /E /Y /C /I /V /D" />
+	</Target>
+
+</Project>

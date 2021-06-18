@@ -9,6 +9,8 @@ namespace SpecialPlugin.Core
     {
         private readonly AssemblyDependencyResolver _resolver;
 
+        public static bool ShowTips { get; set; }
+
         public PluginLoadContext(string pluginPath)
         {
             _resolver = new AssemblyDependencyResolver(pluginPath);
@@ -24,9 +26,9 @@ namespace SpecialPlugin.Core
 
             if (assemblyName.Version == null)
             {
-                if (PluginOptions.ShowTips)
+                if (ShowTips)
                 {
-                    Console.WriteLine($"Loading failed:{args.Name}");
+                    Console.WriteLine($"Skip loading:{args.Name}");
                 }
 
                 return null;
@@ -36,7 +38,7 @@ namespace SpecialPlugin.Core
 
             if (File.Exists(path))
             {
-                if (PluginOptions.ShowTips)
+                if (ShowTips)
                 {
                     Console.WriteLine($"LoadFrom:{path}");
                 }
@@ -50,7 +52,7 @@ namespace SpecialPlugin.Core
 
                 if (File.Exists(path))
                 {
-                    if (PluginOptions.ShowTips)
+                    if (ShowTips)
                     {
                         Console.WriteLine($"LoadFrom:{path}");
                     }
@@ -62,7 +64,7 @@ namespace SpecialPlugin.Core
 
                 if (File.Exists(path))
                 {
-                    if (PluginOptions.ShowTips)
+                    if (ShowTips)
                     {
                         Console.WriteLine($"LoadFrom:{path}");
                     }
@@ -74,13 +76,18 @@ namespace SpecialPlugin.Core
 
                 if (File.Exists(path))
                 {
-                    if (PluginOptions.ShowTips)
+                    if (ShowTips)
                     {
                         Console.WriteLine($"LoadFrom:{path}");
                     }
 
                     return Assembly.LoadFrom(path);
                 }
+            }
+
+            if (ShowTips)
+            {
+                Console.WriteLine($"Loading failed:{args.Name}");
             }
 
             return null;
@@ -92,7 +99,7 @@ namespace SpecialPlugin.Core
 
             if (assemblyPath != null)
             {
-                if (PluginOptions.ShowTips)
+                if (ShowTips)
                 {
                     Console.WriteLine($"LoadFromAssemblyPath:{assemblyPath}");
                 }
@@ -104,7 +111,7 @@ namespace SpecialPlugin.Core
 
             if(assembly != null)
             {
-                if (PluginOptions.ShowTips)
+                if (ShowTips)
                 {
                     Console.WriteLine($"LoadFromAssemblyName:{assembly.Location}");
                 }

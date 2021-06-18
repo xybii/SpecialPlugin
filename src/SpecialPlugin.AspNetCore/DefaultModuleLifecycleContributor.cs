@@ -10,6 +10,14 @@ namespace SpecialPlugin.AspNetCore
         }
     }
 
+    public class OnApplicationShutdownModuleLifecycleContributor : ModuleLifecycleContributorBase
+    {
+        public override void Shutdown(ApplicationShutdownContext context, IPluginModule module)
+        {
+            (module as IOnApplicationShutdown)?.OnApplicationShutdown(context);
+        }
+    }
+
     public class OnPreApplicationInitializationModuleLifecycleContributor : ModuleLifecycleContributorBase
     {
         public override void Initialize(ApplicationInitializationContext context, IPluginModule module)
