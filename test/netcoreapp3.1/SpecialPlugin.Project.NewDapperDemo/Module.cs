@@ -1,9 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc.ApplicationParts;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
+using Quartz;
 using SpecialPlugin.AspNetCore;
 using SpecialPlugin.Project.NewDapperDemo.Dtos;
 using SpecialPlugin.Project.NewDapperDemo.Models;
-using System.Reflection;
+using System;
+using System.IO;
 
 namespace SpecialPlugin.Project.NewDapperDemo
 {
@@ -16,24 +21,11 @@ namespace SpecialPlugin.Project.NewDapperDemo
 
             var configuration = services.GetConfiguration();
 
+            var tt = configuration.GetSection("NewDapperDemoOptions").Get<NewDapperDemoOptions>();
+
             services.Configure<NewDapperDemoOptions>(configuration.GetSection("NewDapperDemoOptions"));
 
             services.AddScoped<IJobService, JobService>();
-
-            services.AddMvc().ConfigureApplicationPartManager(apm =>
-            {
-                var assembly = Assembly.GetExecutingAssembly();
-
-                foreach (var part in new DefaultApplicationPartFactory().GetApplicationParts(assembly))
-                {
-                    apm.ApplicationParts.Add(part);
-                }
-
-                foreach (var part in new CompiledRazorAssemblyApplicationPartFactory().GetApplicationParts(assembly))
-                {
-                    apm.ApplicationParts.Add(part);
-                }
-            });
 
             services.AddAutoMapper(cfg =>
             {
@@ -44,6 +36,15 @@ namespace SpecialPlugin.Project.NewDapperDemo
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
         {
             var app = context.GetApplicationBuilder();
+
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "UnitPackages", GetType().Namespace, $"wwwroot");
+
+            app.UseFileServer(new FileServerOptions()
+            {
+                FileProvider = new PhysicalFileProvider(path),   //实际目录地址
+                RequestPath = new PathString($"/Resource1"),
+                EnableDirectoryBrowsing = true //开启目录浏览
+            });
 
             using (var scope = app.ApplicationServices.CreateScope())
             {

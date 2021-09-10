@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace SpecialPlugin.Project.ReplaceController.Controllers
 {
@@ -7,7 +6,7 @@ namespace SpecialPlugin.Project.ReplaceController.Controllers
     public class NewController : ControllerBase
     {
         [HttpGet(Order = 1)]
-        public async Task<IActionResult> Get()
+        public IActionResult Get()
         {
             return Ok("ReplaceController");
         }

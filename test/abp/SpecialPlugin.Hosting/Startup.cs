@@ -16,7 +16,7 @@ namespace SpecialPlugin.Hosting
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            var modules = Core.PluginExtensions.GetPlugInSources<AbpModule>().ToArray();
+            var modules = Core.PluginExtensions.GetPluginSources<AbpModule>().ToArray();
 
             services.AddApplication<HostModule>(o =>
             {

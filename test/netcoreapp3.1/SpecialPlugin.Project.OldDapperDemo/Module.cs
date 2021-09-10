@@ -1,14 +1,17 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc.ApplicationParts;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using Quartz;
+using Microsoft.Extensions.FileProviders;
 using SpecialPlugin.AspNetCore;
 using SpecialPlugin.Project.OldDapperDemo.Dtos;
 using SpecialPlugin.Project.OldDapperDemo.Models;
-using System.Reflection;
+using System;
+using System.IO;
 
 namespace SpecialPlugin.Project.OldDapperDemo
 {
+    [DependsOn(typeof(JobModule))]
     public class Module : PluginModule
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
@@ -21,53 +24,24 @@ namespace SpecialPlugin.Project.OldDapperDemo
 
             services.AddScoped<IJobService, JobService>();
 
-            services.AddMvc().ConfigureApplicationPartManager(apm =>
-            {
-                var assembly = Assembly.GetExecutingAssembly();
-
-                foreach (var part in new DefaultApplicationPartFactory().GetApplicationParts(assembly))
-                {
-                    apm.ApplicationParts.Add(part);
-                }
-
-                foreach (var part in new CompiledRazorAssemblyApplicationPartFactory().GetApplicationParts(assembly))
-                {
-                    apm.ApplicationParts.Add(part);
-                }
-            });
-
             services.AddAutoMapper(cfg =>
             {
                 cfg.CreateMap<BookTag, BookTagDto>();
             }, typeof(Module));
-
-            services.AddQuartz(cfg =>
-            {
-                cfg.UseMicrosoftDependencyInjectionScopedJobFactory();
-
-                cfg.SchedulerId = "Scheduler-Core-OldDapperDemo";
-
-                string key = "OldDapperDemoJob";
-
-                var jobKey = new JobKey(key);
-
-                cfg.AddJob<IJobService>(jobKey);
-
-                cfg.AddTrigger(t => t
-                    .WithIdentity(key)
-                    .ForJob(jobKey)
-                    .WithCronSchedule("0 0/1 * * * ?").WithDescription(key));
-            });
-
-            services.AddQuartzHostedService(options =>
-            {
-                options.WaitForJobsToComplete = true;
-            });
         }
 
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
         {
             var app = context.GetApplicationBuilder();
+
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "UnitPackages", GetType().Namespace, $"wwwroot");
+
+            app.UseFileServer(new FileServerOptions()
+            {
+                FileProvider = new PhysicalFileProvider(path),   //实际目录地址
+                RequestPath = new PathString($"/Resource2"),
+                EnableDirectoryBrowsing = true //开启目录浏览
+            });
 
             using (var scope = app.ApplicationServices.CreateScope())
             {

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SpecialPlugin.AspNetCore;
@@ -14,11 +15,27 @@ namespace SpecialPlugin.Hosting
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            var moudules = Core.PluginExtensions.GetPlugInSources<PluginModule>();
+            var moudules = Core.PluginExtensions.GetPluginSources<PluginModule>();
 
             services.AddApplication<HostModule>(o =>
             {
                 o.PlugInSources.AddRange(moudules);
+            });
+
+            services.AddMvc().ConfigureApplicationPartManager(apm =>
+            {
+                foreach (var type in moudules)
+                {
+                    foreach (var part in new DefaultApplicationPartFactory().GetApplicationParts(type.Assembly))
+                    {
+                        apm.ApplicationParts.Add(part);
+                    }
+                }
+
+                foreach (var pluginRazor in Core.PluginExtensions.GetPluginRazors())
+                {
+                    apm.ApplicationParts.Add(pluginRazor);
+                }
             });
 
             AddControllers(services);

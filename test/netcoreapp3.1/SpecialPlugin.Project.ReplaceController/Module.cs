@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.ApplicationParts;
-using Microsoft.Extensions.DependencyInjection;
-using SpecialPlugin.AspNetCore;
-using System.Reflection;
+﻿using SpecialPlugin.AspNetCore;
 
 namespace SpecialPlugin.Project.ReplaceController
 {
@@ -9,22 +6,6 @@ namespace SpecialPlugin.Project.ReplaceController
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
-            var services = context.Services;
-
-            services.AddMvc().ConfigureApplicationPartManager(apm =>
-            {
-                var assembly = Assembly.GetExecutingAssembly();
-
-                foreach (var part in new DefaultApplicationPartFactory().GetApplicationParts(assembly))
-                {
-                    apm.ApplicationParts.Add(part);
-                }
-
-                foreach (var part in new CompiledRazorAssemblyApplicationPartFactory().GetApplicationParts(assembly))
-                {
-                    apm.ApplicationParts.Add(part);
-                }
-            });
         }
     }
 }
