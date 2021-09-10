@@ -35,9 +35,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecialPlugin.Project.OldDa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecialPlugin.Core", "src\SpecialPlugin.Core\SpecialPlugin.Core.csproj", "{1B85287C-6941-4D72-AB2B-A26E34B77A54}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecialPlugin.HttpApi", "test\net5.0\SpecialPlugin.HttpApi\SpecialPlugin.HttpApi.csproj", "{25EAE662-27BD-4129-BAED-8554E6A7DCD9}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpecialPlugin.Project.ReplaceController", "test\netcoreapp3.1\SpecialPlugin.Project.ReplaceController\SpecialPlugin.Project.ReplaceController.csproj", "{B94F203A-320E-4F65-BD54-43064A963125}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecialPlugin.Project.ReplaceController", "test\netcoreapp3.1\SpecialPlugin.Project.ReplaceController\SpecialPlugin.Project.ReplaceController.csproj", "{B94F203A-320E-4F65-BD54-43064A963125}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -89,10 +87,6 @@ Global
 		{1B85287C-6941-4D72-AB2B-A26E34B77A54}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B85287C-6941-4D72-AB2B-A26E34B77A54}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B85287C-6941-4D72-AB2B-A26E34B77A54}.Release|Any CPU.Build.0 = Release|Any CPU
-		{25EAE662-27BD-4129-BAED-8554E6A7DCD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{25EAE662-27BD-4129-BAED-8554E6A7DCD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{25EAE662-27BD-4129-BAED-8554E6A7DCD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{25EAE662-27BD-4129-BAED-8554E6A7DCD9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B94F203A-320E-4F65-BD54-43064A963125}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B94F203A-320E-4F65-BD54-43064A963125}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B94F203A-320E-4F65-BD54-43064A963125}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -116,7 +110,6 @@ Global
 		{3412594D-EEA4-452C-AFC6-0DDDE214F552} = {0B6619F2-08CE-4768-AE6C-36E605326DE2}
 		{EB7B1AF2-9D7D-448B-85D5-A018056E71D8} = {0B6619F2-08CE-4768-AE6C-36E605326DE2}
 		{1B85287C-6941-4D72-AB2B-A26E34B77A54} = {022CB5D9-72EA-4BCA-BEA5-4D75DA05117B}
-		{25EAE662-27BD-4129-BAED-8554E6A7DCD9} = {5B2567E3-A700-4323-98D0-82EE0BBC5B72}
 		{B94F203A-320E-4F65-BD54-43064A963125} = {4467540C-7297-4705-9978-01C96D73455A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SpecialPlugin.AspNetCore;
@@ -23,6 +24,22 @@ namespace SpecialPlugin.Hosting
             });
 
             PluginLoadContext.ShowTips = true;
+
+            services.AddMvc().ConfigureApplicationPartManager(apm =>
+            {
+                foreach (var type in moudules)
+                {
+                    foreach (var part in new DefaultApplicationPartFactory().GetApplicationParts(type.Assembly))
+                    {
+                        apm.ApplicationParts.Add(part);
+                    }
+                }
+
+                foreach (var pluginRazor in Core.PluginExtensions.GetPluginRazors())
+                {
+                    apm.ApplicationParts.Add(pluginRazor);
+                }
+            });
 
             AddControllers(services);
         }

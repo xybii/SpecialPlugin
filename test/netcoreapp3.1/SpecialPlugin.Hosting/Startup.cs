@@ -11,8 +11,6 @@ namespace SpecialPlugin.Hosting
 {
     public class Startup
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
             var moudules = Core.PluginExtensions.GetPluginSources<PluginModule>();
@@ -41,7 +39,6 @@ namespace SpecialPlugin.Hosting
             AddControllers(services);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -61,11 +58,6 @@ namespace SpecialPlugin.Hosting
 
         private void AddControllers(IServiceCollection services)
         {
-            // Add services to the collection. Don't build or return
-            // any IServiceProvider or the ConfigureContainer method
-            // won't get called.
-            // https://docs.autofac.org/en/latest/integration/aspnetcore.html
-            // https://github.com/aspnet/AspNetCore.Docs/issues/11441
             services.AddOptions();
 
             services.AddControllers()

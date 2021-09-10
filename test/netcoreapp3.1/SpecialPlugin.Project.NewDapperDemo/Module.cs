@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
-using Quartz;
 using SpecialPlugin.AspNetCore;
 using SpecialPlugin.Project.NewDapperDemo.Dtos;
 using SpecialPlugin.Project.NewDapperDemo.Models;
@@ -20,8 +18,6 @@ namespace SpecialPlugin.Project.NewDapperDemo
             var services = context.Services;
 
             var configuration = services.GetConfiguration();
-
-            var tt = configuration.GetSection("NewDapperDemoOptions").Get<NewDapperDemoOptions>();
 
             services.Configure<NewDapperDemoOptions>(configuration.GetSection("NewDapperDemoOptions"));
 
