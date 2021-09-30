@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.IO;
@@ -21,6 +22,22 @@ namespace SpecialPlugin.Hosting
             services.AddApplication<HostModule>(o =>
             {
                 o.PlugInSources.AddTypes(modules);
+            });
+
+            services.AddMvc().ConfigureApplicationPartManager(apm =>
+            {
+                foreach (var type in modules)
+                {
+                    foreach (var part in new DefaultApplicationPartFactory().GetApplicationParts(type.Assembly))
+                    {
+                        apm.ApplicationParts.Add(part);
+                    }
+                }
+
+                foreach (var pluginRazor in Core.PluginExtensions.GetPluginRazors())
+                {
+                    apm.ApplicationParts.Add(pluginRazor);
+                }
             });
         }
 

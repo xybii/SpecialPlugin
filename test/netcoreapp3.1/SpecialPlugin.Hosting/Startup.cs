@@ -13,16 +13,16 @@ namespace SpecialPlugin.Hosting
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            var moudules = Core.PluginExtensions.GetPluginSources<PluginModule>();
+            var modules = Core.PluginExtensions.GetPluginSources<PluginModule>();
 
             services.AddApplication<HostModule>(o =>
             {
-                o.PlugInSources.AddRange(moudules);
+                o.PlugInSources.AddRange(modules);
             });
 
             services.AddMvc().ConfigureApplicationPartManager(apm =>
             {
-                foreach (var type in moudules)
+                foreach (var type in modules)
                 {
                     foreach (var part in new DefaultApplicationPartFactory().GetApplicationParts(type.Assembly))
                     {

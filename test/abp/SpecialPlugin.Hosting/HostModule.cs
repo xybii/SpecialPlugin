@@ -16,7 +16,7 @@ namespace SpecialPlugin.Hosting
         {
             var services = context.Services;
 
-            CreateGlobalLogger();
+            //CreateGlobalLogger();
         }
 
         public override void OnApplicationInitialization(ApplicationInitializationContext context)

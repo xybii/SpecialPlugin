@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\SpecialPlugin.Core\SpecialPlugin.Core.csproj">
+			<Private>false</Private>
+			<ExcludeAssets>All</ExcludeAssets>
+		</ProjectReference>
+	</ItemGroup>
+
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Exec Command="xcopy &quot;$(SolutionDir)test\demo2\SpecialPlugin.Project.ADemo\bin\Debug\netcoreapp3.1&quot; &quot;$(SolutionDir)test\demo2\SpecialPlugin.Hosting\bin\Debug\netcoreapp3.1\UnitPackages\SpecialPlugin.Project.ADemo&quot; /S /E /Y /C /I /V /D" />
+	</Target>
+
+</Project>

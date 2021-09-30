@@ -35,7 +35,7 @@ namespace SpecialPlugin.Hosting
                     }
                 }
 
-                foreach (var pluginRazor in Core.PluginExtensions.GetPluginRazors())
+                foreach (var pluginRazor in PluginExtensions.GetPluginRazors())
                 {
                     apm.ApplicationParts.Add(pluginRazor);
                 }

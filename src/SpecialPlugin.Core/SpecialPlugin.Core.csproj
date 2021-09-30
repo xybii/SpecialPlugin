@@ -3,12 +3,12 @@
 	<PropertyGroup>
 		<TargetFrameworks>netcoreapp3.1;net5.0</TargetFrameworks>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Version>1.1.0</Version>
+		<Version>1.2.0</Version>
 		<PackageProjectUrl>https://github.com/xybii/SpecialPlugin</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/xybii/SpecialPlugin</RepositoryUrl>
 		<Description>Create a .NET Core application with plugins</Description>
-		<AssemblyVersion>1.1.0.0</AssemblyVersion>
-		<FileVersion>1.1.0.0</FileVersion>
+		<AssemblyVersion>1.2.0.0</AssemblyVersion>
+		<FileVersion>1.2.0.0</FileVersion>
 		<PackageTags>Module, Assembly, Plugin, Plugins</PackageTags>
 	</PropertyGroup>
 

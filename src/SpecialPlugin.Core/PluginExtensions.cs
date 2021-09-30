@@ -52,8 +52,6 @@ namespace SpecialPlugin.Core
                         typeof(T).IsAssignableFrom(type)).ToList();
 
                         moduleTypes.AddRange(types);
-
-                        PluginLoadContext.PluginLoadContexts.Add(context);
                     }
                 }
             }

@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+		<PackageReference Include="Dapper" Version="2.0.90" />
+		<PackageReference Include="MySql.Data" Version="8.0.25" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\SpecialPlugin.Core\SpecialPlugin.Core.csproj">
+			<Private>false</Private>
+			<ExcludeAssets>All</ExcludeAssets>
+		</ProjectReference>
+	</ItemGroup>
+
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Exec Command="xcopy &quot;$(SolutionDir)test\demo\SpecialPlugin.Project.NewDapperDemo\bin\Debug\netcoreapp3.1&quot; &quot;$(SolutionDir)test\demo\SpecialPlugin.Hosting\bin\Debug\netcoreapp3.1\UnitPackages\SpecialPlugin.Project.NewDapperDemo&quot; /S /E /Y /C /I /V /D" />
+	</Target>
+
+</Project>
