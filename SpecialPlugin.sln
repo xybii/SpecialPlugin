@@ -11,8 +11,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "netcoreapp3.1", "netcoreapp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "net5.0", "net5.0", "{5B2567E3-A700-4323-98D0-82EE0BBC5B72}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecialPlugin.AspNetCore", "src\SpecialPlugin.AspNetCore\SpecialPlugin.AspNetCore.csproj", "{F6853837-65F4-4D48-BB07-0C085FF7D89E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecialPlugin.Hosting", "test\net5.0\SpecialPlugin.Hosting\SpecialPlugin.Hosting.csproj", "{73BB95FD-1365-452E-8581-80778FBF08C0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecialPlugin.Project.NewDapperDemo", "test\net5.0\SpecialPlugin.Project.NewDapperDemo\SpecialPlugin.Project.NewDapperDemo.csproj", "{01FB225C-72DF-45FB-80DE-D461A3730BB0}"
@@ -57,9 +55,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecialPlugin.Project.NewDa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecialPlugin.Project.OldDapperDemo", "test\demo2\SpecialPlugin.Project.OldDapperDemo\SpecialPlugin.Project.OldDapperDemo.csproj", "{AA77FD7B-ABFA-451C-8B53-954CD1B1FE11}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpecialPlugin.Project.ADemo", "test\demo2\SpecialPlugin.Project.ADemo\SpecialPlugin.Project.ADemo.csproj", "{722EAA26-ADF6-42D6-89A1-A49C6EF60D1A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecialPlugin.Project.ADemo", "test\demo2\SpecialPlugin.Project.ADemo\SpecialPlugin.Project.ADemo.csproj", "{722EAA26-ADF6-42D6-89A1-A49C6EF60D1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpecialPlugin.Project.BDemo", "test\demo2\SpecialPlugin.Project.BDemo\SpecialPlugin.Project.BDemo.csproj", "{A26E481F-53A2-4830-9646-4F605731A741}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecialPlugin.Project.BDemo", "test\demo2\SpecialPlugin.Project.BDemo\SpecialPlugin.Project.BDemo.csproj", "{A26E481F-53A2-4830-9646-4F605731A741}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecialPlugin.AspNetCore", "src\SpecialPlugin.AspNetCore\SpecialPlugin.AspNetCore.csproj", "{1880553C-8A10-4AD4-BA3F-7D6E0803D468}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecialPlugin.Project.IdentityServer", "test\demo2\SpecialPlugin.Project.IdentityServer\SpecialPlugin.Project.IdentityServer.csproj", "{BCEED011-2DDD-4CEF-B56C-8FDD9267E7BA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecialPlugin.Project.IdentityServer", "test\netcoreapp3.1\SpecialPlugin.Project.IdentityServer\SpecialPlugin.Project.IdentityServer.csproj", "{8916077B-6E8D-40C9-B702-C688FE5F6858}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecialPlugin.Web.Core", "netcoreapp3.1\SpecialPlugin.Web.Core\SpecialPlugin.Web.Core.csproj", "{AC7362BA-9FC4-4EEC-81FF-006225090664}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,10 +73,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F6853837-65F4-4D48-BB07-0C085FF7D89E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F6853837-65F4-4D48-BB07-0C085FF7D89E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F6853837-65F4-4D48-BB07-0C085FF7D89E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F6853837-65F4-4D48-BB07-0C085FF7D89E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{73BB95FD-1365-452E-8581-80778FBF08C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{73BB95FD-1365-452E-8581-80778FBF08C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73BB95FD-1365-452E-8581-80778FBF08C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -155,6 +157,22 @@ Global
 		{A26E481F-53A2-4830-9646-4F605731A741}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A26E481F-53A2-4830-9646-4F605731A741}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A26E481F-53A2-4830-9646-4F605731A741}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1880553C-8A10-4AD4-BA3F-7D6E0803D468}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1880553C-8A10-4AD4-BA3F-7D6E0803D468}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1880553C-8A10-4AD4-BA3F-7D6E0803D468}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1880553C-8A10-4AD4-BA3F-7D6E0803D468}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCEED011-2DDD-4CEF-B56C-8FDD9267E7BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCEED011-2DDD-4CEF-B56C-8FDD9267E7BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCEED011-2DDD-4CEF-B56C-8FDD9267E7BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCEED011-2DDD-4CEF-B56C-8FDD9267E7BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8916077B-6E8D-40C9-B702-C688FE5F6858}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8916077B-6E8D-40C9-B702-C688FE5F6858}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8916077B-6E8D-40C9-B702-C688FE5F6858}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8916077B-6E8D-40C9-B702-C688FE5F6858}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC7362BA-9FC4-4EEC-81FF-006225090664}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC7362BA-9FC4-4EEC-81FF-006225090664}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC7362BA-9FC4-4EEC-81FF-006225090664}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC7362BA-9FC4-4EEC-81FF-006225090664}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -162,7 +180,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{4467540C-7297-4705-9978-01C96D73455A} = {2695EF1A-617F-4E52-8AA9-ACCAB2462EFA}
 		{5B2567E3-A700-4323-98D0-82EE0BBC5B72} = {2695EF1A-617F-4E52-8AA9-ACCAB2462EFA}
-		{F6853837-65F4-4D48-BB07-0C085FF7D89E} = {022CB5D9-72EA-4BCA-BEA5-4D75DA05117B}
 		{73BB95FD-1365-452E-8581-80778FBF08C0} = {5B2567E3-A700-4323-98D0-82EE0BBC5B72}
 		{01FB225C-72DF-45FB-80DE-D461A3730BB0} = {5B2567E3-A700-4323-98D0-82EE0BBC5B72}
 		{21F6111F-3760-4CA5-B139-5A4615F573D8} = {5B2567E3-A700-4323-98D0-82EE0BBC5B72}
@@ -187,6 +204,10 @@ Global
 		{AA77FD7B-ABFA-451C-8B53-954CD1B1FE11} = {BE4BD56C-0360-4430-9CEF-1F46E294501A}
 		{722EAA26-ADF6-42D6-89A1-A49C6EF60D1A} = {BE4BD56C-0360-4430-9CEF-1F46E294501A}
 		{A26E481F-53A2-4830-9646-4F605731A741} = {BE4BD56C-0360-4430-9CEF-1F46E294501A}
+		{1880553C-8A10-4AD4-BA3F-7D6E0803D468} = {022CB5D9-72EA-4BCA-BEA5-4D75DA05117B}
+		{BCEED011-2DDD-4CEF-B56C-8FDD9267E7BA} = {BE4BD56C-0360-4430-9CEF-1F46E294501A}
+		{8916077B-6E8D-40C9-B702-C688FE5F6858} = {4467540C-7297-4705-9978-01C96D73455A}
+		{AC7362BA-9FC4-4EEC-81FF-006225090664} = {4467540C-7297-4705-9978-01C96D73455A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {62FD3234-E58A-4245-92E7-89F987441F5B}

@@ -41,7 +41,7 @@ namespace SpecialPlugin.AspNetCore
 
             optionsAction?.Invoke(options);
 
-            Modules = LoadModules(services, startupModuleType, options);
+            Modules = LoadModules(services, startupModuleType, options.PlugInSources);
 
             ConfigureServices();
         }
@@ -119,41 +119,71 @@ namespace SpecialPlugin.AspNetCore
             }
         }
 
-        protected List<IModuleDescriptor> LoadModules(IServiceCollection services, Type startupModuleType, ApplicationCreationOptions options)
+        protected List<IModuleDescriptor> LoadModules(IServiceCollection services, Type startupModuleType, PlugInSourceList plugInSources)
         {
-            List<Type> types = new List<Type>() { startupModuleType };
+            var modules = GetDescriptors(services, startupModuleType, plugInSources);
 
-            types.AddRange(ModuleHelper.FindDependedModuleTypes(startupModuleType));
+            modules = ModuleHelper.SortByDependency(modules, startupModuleType);
 
-            foreach (var item in options.PlugInSources)
+            return modules;
+        }
+
+        private List<IModuleDescriptor> GetDescriptors(
+            IServiceCollection services,
+            Type startupModuleType,
+            PlugInSourceList plugInSources)
+        {
+            var modules = new List<ModuleDescriptor>();
+
+            //All modules starting from the startup module
+            foreach (var moduleType in ModuleHelper.FindAllModuleTypes(startupModuleType))
             {
-                if (PluginModule.IsPluginModule(item))
+                modules.Add(CreateModuleDescriptor(services, moduleType));
+            }
+
+            //Plugin modules
+            foreach (var moduleType in plugInSources.GetAllModules())
+            {
+                if (modules.Any(m => m.Type == moduleType))
                 {
-                    ModuleHelper.AddIfNotContains(types, item);
-
-                    foreach (var t in ModuleHelper.FindDependedModuleTypes(item))
-                    {
-                        ModuleHelper.AddIfNotContains(types, t);
-                    }
+                    continue;
                 }
+
+                modules.Add(CreateModuleDescriptor(services, moduleType));
             }
 
-            var moduleDescriptors = new List<ModuleDescriptor>();
+            ModuleHelper.SetDependencies(modules);
 
-            foreach (var type in types)
-            {
-                var module = (IPluginModule)Activator.CreateInstance(type);
+            return modules.Cast<IModuleDescriptor>().ToList();
+        }
 
-                services.AddSingleton(type, module);
+        protected virtual ModuleDescriptor CreateModuleDescriptor(IServiceCollection services, Type moduleType)
+        {
+            return new ModuleDescriptor(moduleType, CreateAndRegisterModule(services, moduleType));
+        }
 
-                moduleDescriptors.Add(new ModuleDescriptor(type, module));
-            }
+        protected virtual IPluginModule CreateAndRegisterModule(IServiceCollection services, Type moduleType)
+        {
+            var module = (IPluginModule)Activator.CreateInstance(moduleType);
+            services.AddSingleton(moduleType, module);
+            return module;
+        }
 
-            ModuleHelper.SetDependencies(moduleDescriptors);
+        protected Type[] GetAllModules(PlugInSourceList plugInSources)
+        {
+            return plugInSources
+                .SelectMany(pluginSource => GetModulesWithAllDependencies(pluginSource))
+                .Distinct()
+                .ToArray();
+        }
 
-            var modules = moduleDescriptors.Cast<IModuleDescriptor>().ToList();
-
-            return ModuleHelper.SortByDependency(modules, startupModuleType);
+        protected Type[] GetModulesWithAllDependencies(IPlugInSource plugInSource)
+        {
+            return plugInSource
+                .GetModules()
+                .SelectMany(type => ModuleHelper.FindAllModuleTypes(type))
+                .Distinct()
+                .ToArray();
         }
 
         protected void ConfigureServices()

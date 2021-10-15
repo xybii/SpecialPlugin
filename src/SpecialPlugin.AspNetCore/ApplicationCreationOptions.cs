@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace SpecialPlugin.AspNetCore
+﻿namespace SpecialPlugin.AspNetCore
 {
     public class ApplicationCreationOptions
     {
-        public List<Type> PlugInSources { get; }
+        public PlugInSourceList PlugInSources { get; }
 
         public ApplicationCreationOptions()
         {
-            PlugInSources = new List<Type>();
+            PlugInSources = new PlugInSourceList();
         }
     }
 }

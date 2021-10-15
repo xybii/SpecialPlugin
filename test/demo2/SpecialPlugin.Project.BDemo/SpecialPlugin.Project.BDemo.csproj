@@ -8,14 +8,14 @@
 	<ItemGroup>
 		<ProjectReference Include="..\SpecialPlugin.Project.ADemo\SpecialPlugin.Project.ADemo.csproj">
 			<Private>false</Private>
-			<ExcludeAssets>All</ExcludeAssets>
+			<ExcludeAssets>runtime</ExcludeAssets>
 		</ProjectReference>
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\SpecialPlugin.Core\SpecialPlugin.Core.csproj">
 			<Private>false</Private>
-			<ExcludeAssets>All</ExcludeAssets>
+			<ExcludeAssets>runtime</ExcludeAssets>
 		</ProjectReference>
 	</ItemGroup>
 

@@ -22,7 +22,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\SpecialPlugin.Core\SpecialPlugin.Core.csproj">
 			<Private>false</Private>
-			<ExcludeAssets>All</ExcludeAssets>
+			<ExcludeAssets>runtime</ExcludeAssets>
 		</ProjectReference>
 	</ItemGroup>
 

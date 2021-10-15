@@ -15,16 +15,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\..\src\SpecialPlugin.AspNetCore\SpecialPlugin.AspNetCore.csproj">
-			<Private>false</Private>
-			<ExcludeAssets>All</ExcludeAssets>
-		</ProjectReference>
-	</ItemGroup>
-
-	<ItemGroup>
 	  <Content Update="wwwroot\loge2.jpg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\src\SpecialPlugin.AspNetCore\SpecialPlugin.AspNetCore.csproj">
+			<Private>false</Private>
+			<ExcludeAssets>runtime</ExcludeAssets>
+		</ProjectReference>
 	</ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">

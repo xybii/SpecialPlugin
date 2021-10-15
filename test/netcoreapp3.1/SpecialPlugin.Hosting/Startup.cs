@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SpecialPlugin.AspNetCore;
+using System.Linq;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
 
@@ -13,11 +14,11 @@ namespace SpecialPlugin.Hosting
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            var modules = Core.PluginExtensions.GetPluginSources<PluginModule>();
+            var modules = Core.PluginExtensions.GetPluginSources<PluginModule>().ToArray();
 
             services.AddApplication<HostModule>(o =>
             {
-                o.PlugInSources.AddRange(modules);
+                o.PlugInSources.AddTypes(modules);
             });
 
             services.AddMvc().ConfigureApplicationPartManager(apm =>

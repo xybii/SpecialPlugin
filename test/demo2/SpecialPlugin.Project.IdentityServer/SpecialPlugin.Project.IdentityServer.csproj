@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
+		<PackageReference Include="IdentityServer4.AspNetIdentity" Version="4.1.2" />
+		<PackageReference Include="IdentityServer4.EntityFramework" Version="4.1.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.20" />
+		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.2.7" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<ProjectReference Include="..\SpecialPlugin.Core\SpecialPlugin.Core.csproj">
+			<Private>false</Private>
+			<ExcludeAssets>runtime</ExcludeAssets>
+		</ProjectReference>
+	</ItemGroup>
+
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Exec Command="xcopy &quot;$(SolutionDir)test\demo2\SpecialPlugin.Project.IdentityServer\bin\Debug\netcoreapp3.1&quot; &quot;$(SolutionDir)test\demo2\SpecialPlugin.Hosting\bin\Debug\netcoreapp3.1\UnitPackages\SpecialPlugin.Project.IdentityServer&quot; /S /E /Y /C /I /V /D" />
+	</Target>
+
+</Project>

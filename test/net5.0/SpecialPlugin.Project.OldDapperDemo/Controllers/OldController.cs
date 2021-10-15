@@ -24,13 +24,16 @@ namespace SpecialPlugin.Project.OldDapperDemo.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var connection = new MySqlConnection(_options.Value.DefaultConnection);
+            BookTagDto d = null;
 
-            connection.Open();
+            using (var connection = new MySqlConnection(_options.Value.DefaultConnection))
+            {
+                connection.Open();
 
-            var t = await connection.QueryFirstOrDefaultAsync<BookTag>("SELECT * FROM BookTag");
+                var t = await connection.QueryFirstOrDefaultAsync<BookTag>("SELECT * FROM BookTag");
 
-            var d = _mapper.Map<BookTagDto>(t);
+                d = _mapper.Map<BookTagDto>(t);
+            }
 
             return Ok(d);
         }

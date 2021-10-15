@@ -10,6 +10,8 @@ namespace SpecialPlugin.Core
     {
         public static IEnumerable<Type> GetPluginSources<T>(string unitPackagesName = "UnitPackages", string searchPackagePattern = "*.dll") where T : class
         {
+            PluginLoadContext.BaseAssemblyFullNames ??= new List<string>();
+
             List<Type> moduleTypes = new List<Type>();
 
             if (string.IsNullOrEmpty(unitPackagesName))
@@ -51,7 +53,20 @@ namespace SpecialPlugin.Core
                         !type.IsGenericType &&
                         typeof(T).IsAssignableFrom(type)).ToList();
 
-                        moduleTypes.AddRange(types);
+                        if (types.Count > 0)
+                        {
+                            moduleTypes.AddRange(types);
+
+                            types.ForEach(type =>
+                            {
+                                var assemblyFullName = PluginLoadContext.BaseAssemblyFullNames.FirstOrDefault(o => o == assembly.FullName);
+
+                                if (assemblyFullName == null)
+                                {
+                                    PluginLoadContext.BaseAssemblyFullNames.Add(assembly.FullName);
+                                }
+                            });
+                        }
                     }
                 }
             }

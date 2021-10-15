@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SpecialPlugin.Project.ADemo;
 using System.Threading.Tasks;
 
 namespace SpecialPlugin.Project.NewDapperDemo.Controllers
 {
+    [Authorize]
     [Route("New")]
     public class NewController : ControllerBase
     {

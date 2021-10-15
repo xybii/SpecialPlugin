@@ -8,6 +8,30 @@ namespace SpecialPlugin.AspNetCore
 {
     internal static class ModuleHelper
     {
+        public static List<Type> FindAllModuleTypes(Type startupModuleType)
+        {
+            var moduleTypes = new List<Type>();
+
+            AddModuleAndDependenciesRecursively(moduleTypes, startupModuleType);
+
+            return moduleTypes;
+        }
+
+        private static void AddModuleAndDependenciesRecursively(List<Type> moduleTypes, Type moduleType)
+        {
+            if (moduleTypes.Contains(moduleType))
+            {
+                return;
+            }
+
+            moduleTypes.Add(moduleType);
+
+            foreach (var dependedModuleType in FindDependedModuleTypes(moduleType))
+            {
+                AddModuleAndDependenciesRecursively(moduleTypes, dependedModuleType);
+            }
+        }
+
         public static List<Type> FindDependedModuleTypes(Type moduleType)
         {
             var dependencies = new List<Type>();
@@ -109,8 +133,7 @@ namespace SpecialPlugin.AspNetCore
         /// <param name="visited">Dictionary with the visited items</param>
         private static void SortByDependenciesVisit<T>(T item, Func<T, IEnumerable<T>> getDependencies, List<T> sorted, Dictionary<T, bool> visited)
         {
-            bool inProcess;
-            var alreadyVisited = visited.TryGetValue(item, out inProcess);
+            var alreadyVisited = visited.TryGetValue(item, out bool inProcess);
 
             if (alreadyVisited)
             {

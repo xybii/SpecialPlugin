@@ -42,10 +42,10 @@ namespace SpecialPlugin.Project.NewDapperDemo
                 EnableDirectoryBrowsing = true //开启目录浏览
             });
 
-            using (var scope = app.ApplicationServices.CreateScope())
-            {
-                scope.ServiceProvider.GetRequiredService<IJobService>().Execute(null).GetAwaiter().GetResult();
-            }
+            //using (var scope = app.ApplicationServices.CreateScope())
+            //{
+            //    scope.ServiceProvider.GetRequiredService<IJobService>().Execute(null).GetAwaiter().GetResult();
+            //}
         }
     }
 }

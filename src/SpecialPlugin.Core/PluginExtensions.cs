@@ -10,6 +10,8 @@ namespace SpecialPlugin.Core
     {
         public static IEnumerable<Type> GetPluginSources<T>(string unitPackagesName = "UnitPackages", string searchPackagePattern = "*.dll") where T : class
         {
+            PluginLoadContext.BaseAssemblyFullNames ??= new List<string>();
+
             List<Type> moduleTypes = new List<Type>();
 
             if (string.IsNullOrEmpty(unitPackagesName))
@@ -51,7 +53,18 @@ namespace SpecialPlugin.Core
                         !type.IsGenericType &&
                         typeof(T).IsAssignableFrom(type)).ToList();
 
-                        moduleTypes.AddRange(types);
+                        if (types.Count > 0)
+                        {
+                            moduleTypes.AddRange(types);
+
+                            types.ForEach(type =>
+                            {
+                                if (!PluginLoadContext.BaseAssemblyFullNames.Contains(assembly.FullName))
+                                {
+                                    PluginLoadContext.BaseAssemblyFullNames.Add(assembly.FullName);
+                                }
+                            });
+                        }
                     }
                 }
             }
@@ -63,7 +76,7 @@ namespace SpecialPlugin.Core
         {
             List<CompiledRazorAssemblyPart> compiledRazorAssemblyParts = new List<CompiledRazorAssemblyPart>();
 
-            if(string.IsNullOrEmpty(unitPackagesName))
+            if (string.IsNullOrEmpty(unitPackagesName))
             {
                 throw new ArgumentException("UnitPackagesName parameter cannot be empty");
             }
