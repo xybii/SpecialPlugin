@@ -22,7 +22,7 @@ namespace SpecialPlugin.Project.NewDapperDemo.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public virtual async Task<IActionResult> Get()
         {
             BookTagDto d = null;
 
@@ -39,7 +39,7 @@ namespace SpecialPlugin.Project.NewDapperDemo.Controllers
         }
 
         [HttpGet("2", Order = 999)]
-        public async Task<IActionResult> Get2()
+        public virtual async Task<IActionResult> Get2()
         {
             return Ok();
         }

@@ -10,6 +10,11 @@
 			<Private>false</Private>
 			<ExcludeAssets>runtime</ExcludeAssets>
 		</ProjectReference>
+		<ProjectReference Include="..\SpecialPlugin.Project.IdentityServer\SpecialPlugin.Project.IdentityServer.csproj">
+			<Private>false</Private>
+			<ExcludeAssets>runtime</ExcludeAssets>
+			<PrivateAssets>compile</PrivateAssets>
+		</ProjectReference>
 	</ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">

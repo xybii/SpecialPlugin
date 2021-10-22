@@ -6,14 +6,15 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\SpecialPlugin.Core\SpecialPlugin.Core.csproj">
+			<Private>false</Private>
+			<ExcludeAssets>runtime</ExcludeAssets>
+		</ProjectReference>
 		<ProjectReference Include="..\SpecialPlugin.Project.ADemo\SpecialPlugin.Project.ADemo.csproj">
 			<Private>false</Private>
 			<ExcludeAssets>runtime</ExcludeAssets>
 		</ProjectReference>
-	</ItemGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\SpecialPlugin.Core\SpecialPlugin.Core.csproj">
+		<ProjectReference Include="..\SpecialPlugin.Project.NewDapperDemo\SpecialPlugin.Project.NewDapperDemo.csproj">
 			<Private>false</Private>
 			<ExcludeAssets>runtime</ExcludeAssets>
 		</ProjectReference>

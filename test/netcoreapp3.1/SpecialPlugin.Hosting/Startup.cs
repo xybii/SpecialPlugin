@@ -51,6 +51,10 @@ namespace SpecialPlugin.Hosting
 
             app.UseRouting();
 
+            app.UseAuthentication(); //±ØÐëÔÚÉÏ
+
+            app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

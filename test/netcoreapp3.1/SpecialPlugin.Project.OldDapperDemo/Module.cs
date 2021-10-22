@@ -24,6 +24,8 @@ namespace SpecialPlugin.Project.OldDapperDemo
 
             services.AddScoped<IJobService, JobService>();
 
+            services.AddScoped<ITest, Test>();
+
             services.AddAutoMapper(cfg =>
             {
                 cfg.CreateMap<BookTag, BookTagDto>();

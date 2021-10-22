@@ -11,7 +11,7 @@
 			<ExcludeAssets>runtime</ExcludeAssets>
 			<PrivateAssets>compile</PrivateAssets>
 		</ProjectReference>
-		<ProjectReference Include="..\SpecialPlugin.Project.IdentityServer\SpecialPlugin.Project.IdentityServer.csproj">
+		<ProjectReference Include="..\SpecialPlugin.Project.NewDapperDemo\SpecialPlugin.Project.NewDapperDemo.csproj">
 			<Private>false</Private>
 			<ExcludeAssets>runtime</ExcludeAssets>
 			<PrivateAssets>compile</PrivateAssets>
@@ -21,10 +21,15 @@
 			<ExcludeAssets>runtime</ExcludeAssets>
 			<PrivateAssets>compile</PrivateAssets>
 		</ProjectReference>
+		<ProjectReference Include="..\SpecialPlugin.Project.ReplaceController\SpecialPlugin.Project.ReplaceController.csproj">
+			<Private>false</Private>
+			<ExcludeAssets>runtime</ExcludeAssets>
+			<PrivateAssets>compile</PrivateAssets>
+		</ProjectReference>
 	</ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-		<Exec Command="xcopy &quot;$(SolutionDir)test\netcoreapp3.1\SpecialPlugin.Project.ReplaceController\bin\Debug\netcoreapp3.1&quot; &quot;$(SolutionDir)test\netcoreapp3.1\SpecialPlugin.Hosting\bin\Debug\netcoreapp3.1\UnitPackages\SpecialPlugin.Project.ReplaceController&quot; /S /E /Y /C /I /V /D" />
+		<Exec Command="xcopy &quot;$(SolutionDir)test\netcoreapp3.1\SpecialPlugin.Project.ReplaceReplaceController\bin\Debug\netcoreapp3.1&quot; &quot;$(SolutionDir)test\netcoreapp3.1\SpecialPlugin.Hosting\bin\Debug\netcoreapp3.1\UnitPackages\SpecialPlugin.Project.ReplaceReplaceController&quot; /S /E /Y /C /I /V /D" />
 	</Target>
 
 </Project>

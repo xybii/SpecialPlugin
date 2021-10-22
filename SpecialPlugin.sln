@@ -61,11 +61,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecialPlugin.Project.BDemo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecialPlugin.AspNetCore", "src\SpecialPlugin.AspNetCore\SpecialPlugin.AspNetCore.csproj", "{1880553C-8A10-4AD4-BA3F-7D6E0803D468}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecialPlugin.Project.IdentityServer", "test\demo2\SpecialPlugin.Project.IdentityServer\SpecialPlugin.Project.IdentityServer.csproj", "{BCEED011-2DDD-4CEF-B56C-8FDD9267E7BA}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecialPlugin.Project.IdentityServer", "test\netcoreapp3.1\SpecialPlugin.Project.IdentityServer\SpecialPlugin.Project.IdentityServer.csproj", "{8916077B-6E8D-40C9-B702-C688FE5F6858}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecialPlugin.Web.Core", "netcoreapp3.1\SpecialPlugin.Web.Core\SpecialPlugin.Web.Core.csproj", "{AC7362BA-9FC4-4EEC-81FF-006225090664}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecialPlugin.Web.Core", "test\netcoreapp3.1\SpecialPlugin.Web.Core\SpecialPlugin.Web.Core.csproj", "{4BF1EF2E-55C6-4FC1-BB01-F56259884137}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecialPlugin.Project.ReplaceReplaceController", "test\netcoreapp3.1\SpecialPlugin.Project.ReplaceReplaceController\SpecialPlugin.Project.ReplaceReplaceController.csproj", "{015EA62C-41B4-4193-BF42-64162D541802}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecialPlugin.Project.IdentityServer", "test\demo2\SpecialPlugin.Project.IdentityServer\SpecialPlugin.Project.IdentityServer.csproj", "{4F0326FB-C1E0-4DA7-BE14-C8E798A3A961}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -161,18 +163,22 @@ Global
 		{1880553C-8A10-4AD4-BA3F-7D6E0803D468}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1880553C-8A10-4AD4-BA3F-7D6E0803D468}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1880553C-8A10-4AD4-BA3F-7D6E0803D468}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BCEED011-2DDD-4CEF-B56C-8FDD9267E7BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BCEED011-2DDD-4CEF-B56C-8FDD9267E7BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BCEED011-2DDD-4CEF-B56C-8FDD9267E7BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BCEED011-2DDD-4CEF-B56C-8FDD9267E7BA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8916077B-6E8D-40C9-B702-C688FE5F6858}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8916077B-6E8D-40C9-B702-C688FE5F6858}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8916077B-6E8D-40C9-B702-C688FE5F6858}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8916077B-6E8D-40C9-B702-C688FE5F6858}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AC7362BA-9FC4-4EEC-81FF-006225090664}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AC7362BA-9FC4-4EEC-81FF-006225090664}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AC7362BA-9FC4-4EEC-81FF-006225090664}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AC7362BA-9FC4-4EEC-81FF-006225090664}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BF1EF2E-55C6-4FC1-BB01-F56259884137}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BF1EF2E-55C6-4FC1-BB01-F56259884137}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BF1EF2E-55C6-4FC1-BB01-F56259884137}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BF1EF2E-55C6-4FC1-BB01-F56259884137}.Release|Any CPU.Build.0 = Release|Any CPU
+		{015EA62C-41B4-4193-BF42-64162D541802}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{015EA62C-41B4-4193-BF42-64162D541802}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{015EA62C-41B4-4193-BF42-64162D541802}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{015EA62C-41B4-4193-BF42-64162D541802}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F0326FB-C1E0-4DA7-BE14-C8E798A3A961}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F0326FB-C1E0-4DA7-BE14-C8E798A3A961}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F0326FB-C1E0-4DA7-BE14-C8E798A3A961}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F0326FB-C1E0-4DA7-BE14-C8E798A3A961}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -205,9 +211,10 @@ Global
 		{722EAA26-ADF6-42D6-89A1-A49C6EF60D1A} = {BE4BD56C-0360-4430-9CEF-1F46E294501A}
 		{A26E481F-53A2-4830-9646-4F605731A741} = {BE4BD56C-0360-4430-9CEF-1F46E294501A}
 		{1880553C-8A10-4AD4-BA3F-7D6E0803D468} = {022CB5D9-72EA-4BCA-BEA5-4D75DA05117B}
-		{BCEED011-2DDD-4CEF-B56C-8FDD9267E7BA} = {BE4BD56C-0360-4430-9CEF-1F46E294501A}
 		{8916077B-6E8D-40C9-B702-C688FE5F6858} = {4467540C-7297-4705-9978-01C96D73455A}
-		{AC7362BA-9FC4-4EEC-81FF-006225090664} = {4467540C-7297-4705-9978-01C96D73455A}
+		{4BF1EF2E-55C6-4FC1-BB01-F56259884137} = {4467540C-7297-4705-9978-01C96D73455A}
+		{015EA62C-41B4-4193-BF42-64162D541802} = {4467540C-7297-4705-9978-01C96D73455A}
+		{4F0326FB-C1E0-4DA7-BE14-C8E798A3A961} = {BE4BD56C-0360-4430-9CEF-1F46E294501A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {62FD3234-E58A-4245-92E7-89F987441F5B}

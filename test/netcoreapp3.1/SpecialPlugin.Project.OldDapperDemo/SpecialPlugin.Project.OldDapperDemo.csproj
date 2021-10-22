@@ -24,6 +24,7 @@
 		<ProjectReference Include="..\..\..\src\SpecialPlugin.AspNetCore\SpecialPlugin.AspNetCore.csproj">
 			<Private>false</Private>
 			<ExcludeAssets>runtime</ExcludeAssets>
+			<PrivateAssets>compile</PrivateAssets>
 		</ProjectReference>
 	</ItemGroup>
 

@@ -14,15 +14,18 @@ namespace SpecialPlugin.Project.OldDapperDemo.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IOptions<OldDapperDemoOptions> _options;
+        private readonly ITest _test;
 
-        public OldController(IMapper mapper, IOptions<OldDapperDemoOptions> options)
+        public OldController(IMapper mapper, IOptions<OldDapperDemoOptions> options,
+            ITest test)
         {
             _mapper = mapper;
             _options = options;
+            _test = test;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public virtual async Task<IActionResult> Get()
         {
             BookTagDto d = null;
 
@@ -36,6 +39,12 @@ namespace SpecialPlugin.Project.OldDapperDemo.Controllers
             }
 
             return Ok(d);
+        }
+
+        [HttpGet("test")]
+        public virtual async Task<IActionResult> Test()
+        {
+            return Ok(_test.Get());
         }
     }
 }

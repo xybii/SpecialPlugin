@@ -2,6 +2,7 @@
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Entities;
 using IdentityServer4.Models;
+using IdentityServer4.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -9,8 +10,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Logging;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using SpecialPlugin.AspNetCore;
+using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 
@@ -28,12 +31,7 @@ namespace SpecialPlugin.Project.IdentityServer
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
 
-            string issuerUir = string.IsNullOrEmpty(configuration["IdentityServerOptions:ConnectionString"]) ? null : configuration["IdentityServerOptions:ConnectionString"];
-
-            var builder = services.AddIdentityServer(options =>
-            {
-                //options.IssuerUri = issuerUir;
-            })
+            var builder = services.AddIdentityServer()
                 .AddAspNetIdentity<IdentityUser>()
                 .AddProfileService<ProfileService>();
 
@@ -53,7 +51,7 @@ namespace SpecialPlugin.Project.IdentityServer
                 .MigrationsAssembly(typeof(Module).GetTypeInfo().Assembly.GetName().Name));
             });
 
-            builder.AddDeveloperSigningCredential();
+            builder.AddDeveloperSigningCredential(true, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "UnitPackages", GetType().Namespace, "is4.rsa"));
 
             services.AddDbContext<AppDbContext>(options =>
             {
@@ -72,6 +70,8 @@ namespace SpecialPlugin.Project.IdentityServer
             IdentityModelEventSource.ShowPII = true;
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
+            services.AddSingleton<ICorsPolicyService, CorsPolicyService>();
 
             services.AddAuthentication()
                 .AddIdentityServerAuthentication(options =>
@@ -108,11 +108,11 @@ namespace SpecialPlugin.Project.IdentityServer
                 {
                     configurationDbContext.Clients.Add(new IdentityServer4.EntityFramework.Entities.Client()
                     {
-                        ClientId = "acsclient",
+                        ClientId = "identity",
                         ClientName = "客户端模式",
                         ClientSecrets = new List<ClientSecret>()
                         {
-                            new ClientSecret() { Type = "SharedSecret", Value = "acs@client".Sha256() }
+                            new ClientSecret() { Type = "SharedSecret", Value = "identity".Sha256() }
                         },
                         AccessTokenLifetime = 3600 * 24,
                         AllowedGrantTypes = new List<ClientGrantType>()

@@ -2,6 +2,7 @@
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Entities;
 using IdentityServer4.Models;
+using IdentityServer4.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -16,6 +17,7 @@ using SpecialPlugin.AspNetCore;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -52,7 +54,7 @@ namespace SpecialPlugin.Project.IdentityServer
                 .MigrationsAssembly(typeof(Module).GetTypeInfo().Assembly.GetName().Name));
             });
 
-            builder.AddDeveloperSigningCredential();
+            builder.AddDeveloperSigningCredential(true, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "UnitPackages", GetType().Namespace, "is4.rsa"));
 
             services.AddDbContext<AppDbContext>(options =>
             {
@@ -72,29 +74,15 @@ namespace SpecialPlugin.Project.IdentityServer
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
-            services.AddAuthentication("Bearer")
+            services.AddSingleton<ICorsPolicyService, CorsPolicyService>();
+
+            services.AddAuthentication()
                 .AddIdentityServerAuthentication(options =>
                 {
                     options.Authority = "http://127.0.0.1:5000";
                     options.RequireHttpsMetadata = false;
                     options.ApiName = "identity";
                 });
-
-            services.ConfigureApplicationCookie(options =>
-            {
-                // Cookie settings
-                options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
-                options.SlidingExpiration = true;
-                options.Events = new CookieAuthenticationEvents()
-                {
-                    OnRedirectToLogin = context =>
-                    {
-                        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                        return Task.CompletedTask;
-                    }
-                };
-            });
         }
 
         public override void Configure(IApplicationBuilder app)
@@ -121,7 +109,7 @@ namespace SpecialPlugin.Project.IdentityServer
                 {
                     configurationDbContext.Clients.Add(new IdentityServer4.EntityFramework.Entities.Client()
                     {
-                        ClientId = "identityclient",
+                        ClientId = "identity",
                         ClientName = "客户端模式",
                         ClientSecrets = new List<ClientSecret>()
                         {
