@@ -1,6 +1,6 @@
 # SpecialPlugin
 
-.net core 插件化，Api已经尽量Volo.Abp保持一致， 更新了可以使用插件中的Razor具体使用方法请看test的netcoreapp3.1样例
+.net core 插件化，Api已经尽量Volo.Abp保持一致
 
 SpecialPlugin.AspNetCore 此包只做少量功能的移植，实现请参考 https://github.com/abpframework/abp
 
@@ -117,11 +117,11 @@ public class Startup
 {
     public void ConfigureServices(IServiceCollection services)
     {
-        var moudules = Core.PluginExtensions.GetPluginSources<PluginModule>();
+        var modules = Core.PluginExtensions.GetPluginSources<PluginModule>().ToArray();
 
         services.AddApplication<HostModule>(o =>
         {
-            o.PlugInSources.AddRange(moudules);
+            o.PlugInSources.AddTypes(moudules);
         });
 
         services.AddMvc().ConfigureApplicationPartManager(apm =>
