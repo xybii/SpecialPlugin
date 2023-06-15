@@ -26,7 +26,7 @@ namespace SpecialPlugin.Project.NewDapperDemo.Controllers
         {
             BookTagDto d = null;
 
-            using (var connection = new MySqlConnection(_options.Value.DefaultConnection))
+            using (MySqlConnection connection = new MySqlConnection(_options.Value.DefaultConnection))
             {
                 connection.Open();
 

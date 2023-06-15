@@ -1,16 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
 		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\SpecialPlugin.Project.ADemo\SpecialPlugin.Project.ADemo.csproj">
+		<ProjectReference Include="..\..\..\src\SpecialPlugin.AspNetCore\SpecialPlugin.AspNetCore.csproj">
 			<Private>false</Private>
 			<ExcludeAssets>runtime</ExcludeAssets>
 		</ProjectReference>
-		<ProjectReference Include="..\SpecialPlugin.Project.IdentityServer\SpecialPlugin.Project.IdentityServer.csproj">
+		<ProjectReference Include="..\SpecialPlugin.Plugin.B\SpecialPlugin.Plugin.B.csproj">
 			<Private>false</Private>
 			<ExcludeAssets>runtime</ExcludeAssets>
 		</ProjectReference>
@@ -21,7 +23,7 @@
 	</ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-		<Exec Command="xcopy &quot;$(SolutionDir)test\demo2\SpecialPlugin.Project.BDemo\bin\Debug\netcoreapp3.1&quot; &quot;$(SolutionDir)test\demo2\SpecialPlugin.Hosting\bin\Debug\netcoreapp3.1\UnitPackages\SpecialPlugin.Project.BDemo&quot; /S /E /Y /C /I /V /D" />
+		<Exec Command="xcopy &quot;$(SolutionDir)test\net6.0\SpecialPlugin.Plugin.A\bin\Debug\net6.0&quot; &quot;$(SolutionDir)test\net6.0\SpecialPlugin.Hosting\bin\Debug\net6.0\UnitPackages\SpecialPlugin.Plugin.A&quot; /S /E /Y /C /I /V /D" />
 	</Target>
-
+	
 </Project>

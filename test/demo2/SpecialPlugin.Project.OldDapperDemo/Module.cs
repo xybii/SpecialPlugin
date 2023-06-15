@@ -1,20 +1,16 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
-using SpecialPlugin.AspNetCore;
 using SpecialPlugin.Project.OldDapperDemo.Dtos;
 using SpecialPlugin.Project.OldDapperDemo.Models;
-using System;
-using System.IO;
+using SpecialPlugin.Web.Core;
 using System.Linq;
 
 namespace SpecialPlugin.Project.OldDapperDemo
 {
-    public class Module : PluginModule
+    public class Module : StartupModule
     {
         public override void ConfigureServices(IServiceCollection services)
         {

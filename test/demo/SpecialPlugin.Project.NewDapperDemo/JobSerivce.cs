@@ -23,15 +23,16 @@ namespace SpecialPlugin.Project.NewDapperDemo
 
         public async Task Execute()
         {
-            var connection = new MySqlConnection(_options.Value.DefaultConnection);
+            using (var connection = new MySqlConnection(_options.Value.DefaultConnection))
+            {
+                connection.Open();
 
-            connection.Open();
+                var t = await connection.QueryFirstOrDefaultAsync<BookTag>("SELECT * FROM BookTag");
 
-            var t = await connection.QueryFirstOrDefaultAsync<BookTag>("SELECT * FROM BookTag");
+                var d = _mapper.Map<BookTagDto>(t);
 
-            var d = _mapper.Map<BookTagDto>(t);
-
-            Console.WriteLine($"NewDapperDemo,Json:{JsonConvert.SerializeObject(d)}");
+                Console.WriteLine($"NewDapperDemo,Json:{JsonConvert.SerializeObject(d)}");
+            }
         }
     }
 }

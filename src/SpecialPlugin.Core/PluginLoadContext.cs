@@ -9,19 +9,32 @@ namespace SpecialPlugin.Core
     public class PluginLoadContext : AssemblyLoadContext
     {
         private readonly AssemblyDependencyResolver _resolver;
-        private Assembly BaseAssembly;
+        private Assembly _baseAssembly;
 
-        protected static List<PluginLoadContext> PluginLoadContexts;
+        internal static List<PluginLoadContext> PluginLoadContexts = new List<PluginLoadContext>();
 
         public PluginLoadContext(string pluginPath)
         {
             _resolver = new AssemblyDependencyResolver(pluginPath);
 
             Resolving += PluginLoadContext_Resolving;
+        }
+
+        public void SetBaseAssembly(Assembly assembly)
+        {
+            _baseAssembly = assembly;
+        }
+
+        public void ResgiterContext()
+        {
+            PluginLoadContexts.Add(this);
 
             Default.Resolving += (context, assemblyName) =>
             {
-                var assemblyFullName = PluginLoadContexts?.Select(o=> o.BaseAssembly)?.FirstOrDefault(p => p.FullName == assemblyName.FullName);
+                var assemblyFullName = PluginLoadContexts?
+                .Select(o => o._baseAssembly)?
+                .Where(p => p != null && p.FullName == assemblyName.FullName)?
+                .FirstOrDefault();
 
                 if (assemblyFullName != null)
                 {
@@ -30,18 +43,6 @@ namespace SpecialPlugin.Core
 
                 return null;
             };
-        }
-
-        public void SetBaseAssembly(Assembly assembly)
-        {
-            BaseAssembly = assembly;
-        }
-
-        public void ResgiterContext()
-        {
-            PluginLoadContexts ??= new List<PluginLoadContext>();
-
-            PluginLoadContexts.Add(this);
         }
 
         private Assembly Load(Assembly baseAssembly, AssemblyName assemblyName)
@@ -53,25 +54,28 @@ namespace SpecialPlugin.Core
 
             Assembly assembly = null;
 
-            var assemblyNames = baseAssembly.GetReferencedAssemblies().Select(o=> o.FullName);
+            var assemblyNames = baseAssembly.GetReferencedAssemblies().Select(o => o.FullName);
 
-            var contexts = PluginLoadContexts
-                .Where(o=> o.BaseAssembly != baseAssembly)
-                .Where(o=> o.Assemblies.Any(p=> assemblyNames.Contains(p.FullName)))
+            var contexts = PluginLoadContexts?
+                .Where(o => o._baseAssembly != baseAssembly)
+                .Where(o => o.Assemblies.Any(p => assemblyNames.Contains(p.FullName)))
                 .ToList();
 
-            foreach (var context in contexts)
+            if (contexts != null)
             {
-                if (assembly != null)
+                foreach (var context in contexts)
                 {
-                    break;
-                }
+                    if (assembly != null)
+                    {
+                        break;
+                    }
 
-                assembly = context.Assemblies.FirstOrDefault(o => o.FullName == assemblyName.FullName);
+                    assembly = context.Assemblies.FirstOrDefault(o => o.FullName == assemblyName.FullName);
 
-                if (assembly == null)
-                {
-                    assembly = Load(context.BaseAssembly, assemblyName);
+                    if (assembly == null)
+                    {
+                        assembly = Load(context._baseAssembly, assemblyName);
+                    }
                 }
             }
 
@@ -89,7 +93,7 @@ namespace SpecialPlugin.Core
                 assembly = LoadFromAssemblyPath(assemblyPath);
             }
 
-            return assembly ?? Load(BaseAssembly, arg2);
+            return assembly ?? Load(_baseAssembly, arg2);
         }
 
         protected override IntPtr LoadUnmanagedDll(string unmanagedDllName)

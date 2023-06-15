@@ -5,7 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
-using SpecialPlugin.AspNetCore;
+using SpecialPlugin.Core;
+using SpecialPlugin.Web.Core;
 using System;
 using System.Collections.Generic;
 
@@ -13,19 +14,19 @@ namespace SpecialPlugin.Hosting
 {
     public class Startup
     {
-        public List<PluginModule> PluginModules = new List<PluginModule>();
+        public List<StartupModule> PluginModules = new List<StartupModule>();
 
         public void ConfigureServices(IServiceCollection services)
         {
             CreateGlobalLogger();
 
-            var modules = Core.PluginExtensions.GetPluginSources<PluginModule>();
+            var modules = PluginExtensions.GetPluginSources<StartupModule>();
 
             services.AddMvc().ConfigureApplicationPartManager(apm =>
             {
                 foreach (var module in modules)
                 {
-                    var pluginModele = Activator.CreateInstance(module) as PluginModule;
+                    var pluginModele = Activator.CreateInstance(module) as StartupModule;
 
                     pluginModele.ConfigureServices(services);
 
@@ -62,7 +63,7 @@ namespace SpecialPlugin.Hosting
 
             app.UseRouting();
 
-            app.UseAuthentication(); //±ÿ–Î‘⁄…œ
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

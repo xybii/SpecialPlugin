@@ -1,16 +1,18 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace SpecialPlugin.AspNetCore
+namespace SpecialPlugin.Web.Core
 {
-    public class PluginModule
+    public class StartupModule
     {
         public virtual void ConfigureServices(IServiceCollection services)
         {
+
         }
 
         public virtual void Configure(IApplicationBuilder app)
         {
+
         }
     }
 }

@@ -2,14 +2,14 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SpecialPlugin.AspNetCore;
 using SpecialPlugin.Project.NewDapperDemo.Dtos;
 using SpecialPlugin.Project.NewDapperDemo.Models;
+using SpecialPlugin.Web.Core;
 using System.Linq;
 
 namespace SpecialPlugin.Project.NewDapperDemo
 {
-    public class Module : PluginModule
+    public class Module : StartupModule
     {
         public override void ConfigureServices(IServiceCollection services)
         {

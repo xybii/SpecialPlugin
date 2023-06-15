@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SpecialPlugin.AspNetCore;
+using SpecialPlugin.Web.Core;
 using System;
 using System.Collections.Generic;
 
@@ -10,15 +10,15 @@ namespace SpecialPlugin.Hosting
 {
     public class Startup
     {
-        public List<PluginModule> PluginModules = new List<PluginModule>();
+        public List<StartupModule> PluginModules = new List<StartupModule>();
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var modules = Core.PluginExtensions.GetPluginSources<PluginModule>();
+            var modules = Core.PluginExtensions.GetPluginSources<StartupModule>();
 
             foreach(var module in modules)
             {
-                var pluginModele = Activator.CreateInstance(module) as PluginModule;
+                var pluginModele = Activator.CreateInstance(module) as StartupModule;
 
                 pluginModele.ConfigureServices(services);
 

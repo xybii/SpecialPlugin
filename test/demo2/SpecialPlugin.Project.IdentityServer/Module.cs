@@ -3,9 +3,7 @@ using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Entities;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -13,18 +11,15 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Logging;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
-using SpecialPlugin.AspNetCore;
-using System;
+using SpecialPlugin.Web.Core;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace SpecialPlugin.Project.IdentityServer
 {
-    public class Module : PluginModule
+    public class Module : StartupModule
     {
         public override void ConfigureServices(IServiceCollection services)
         {
@@ -54,7 +49,7 @@ namespace SpecialPlugin.Project.IdentityServer
                 .MigrationsAssembly(typeof(Module).GetTypeInfo().Assembly.GetName().Name));
             });
 
-            builder.AddDeveloperSigningCredential(true, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "UnitPackages", GetType().Namespace, "is4.rsa"));
+            builder.AddDeveloperSigningCredential();
 
             services.AddDbContext<AppDbContext>(options =>
             {

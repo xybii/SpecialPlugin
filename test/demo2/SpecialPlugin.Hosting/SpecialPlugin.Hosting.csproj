@@ -9,7 +9,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\SpecialPlugin.Core\SpecialPlugin.Core.csproj" />
+	  <ProjectReference Include="..\..\..\src\SpecialPlugin.Core\SpecialPlugin.Core.csproj" />
+	  <ProjectReference Include="..\SpecialPlugin.Web.Core\SpecialPlugin.Web.Core.csproj" />
 	</ItemGroup>
 
 </Project>

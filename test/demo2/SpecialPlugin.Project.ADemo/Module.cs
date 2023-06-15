@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using SpecialPlugin.AspNetCore;
+using SpecialPlugin.Web.Core;
 
 namespace SpecialPlugin.Project.ADemo
 {
-    public class Module : PluginModule
+    public class Module : StartupModule
     {
         public override void ConfigureServices(IServiceCollection services)
         {

@@ -33,7 +33,7 @@ namespace SpecialPlugin.Core
 
             DirectoryInfo[] dics = root.GetDirectories();
 
-            foreach (var item in dics)
+            foreach (var item in dics.ToList())
             {
                 var files = item.GetFiles(searchPackagePattern).ToList();
 
@@ -47,17 +47,14 @@ namespace SpecialPlugin.Core
 
                         context.SetBaseAssembly(assembly);
 
-                        var types = assembly.GetTypes().Where(type =>
-                        type.IsClass &&
-                        !type.IsAbstract &&
-                        !type.IsGenericType &&
-                        typeof(T).IsAssignableFrom(type)).ToList();
-
-                        if (types.Count > 0)
+                        foreach (var type in assembly.GetExportedTypes())
                         {
-                            moduleTypes.AddRange(types);
+                            if (typeof(T).IsAssignableFrom(type))
+                            {
+                                moduleTypes.Add(type);
 
-                            context.ResgiterContext();
+                                context.ResgiterContext();
+                            }
                         }
                     }
                 }
