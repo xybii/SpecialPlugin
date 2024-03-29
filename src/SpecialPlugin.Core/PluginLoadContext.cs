@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
@@ -9,15 +10,41 @@ namespace SpecialPlugin.Core
     public class PluginLoadContext : AssemblyLoadContext
     {
         private readonly AssemblyDependencyResolver _resolver;
+        private readonly SearchOption? _searchOption;
         private Assembly _baseAssembly;
-
+        
         internal static List<PluginLoadContext> PluginLoadContexts = new List<PluginLoadContext>();
 
-        public PluginLoadContext(string pluginPath)
+        public PluginLoadContext(string pluginPath, SearchOption? searchOption = null)
         {
             _resolver = new AssemblyDependencyResolver(pluginPath);
+            _searchOption = searchOption;
 
             Resolving += PluginLoadContext_Resolving;
+        }
+
+        protected override IntPtr LoadUnmanagedDll(string unmanagedDllName)
+        {
+            IntPtr intPtr = IntPtr.Zero;
+
+            string libraryPath = _resolver.ResolveUnmanagedDllToPath(unmanagedDllName);
+
+            if (libraryPath != null)
+            {
+                intPtr = LoadUnmanagedDllFromPath(libraryPath);
+            }
+
+            if (intPtr == IntPtr.Zero && _searchOption.HasValue)
+            {
+                string[] files = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, $"{unmanagedDllName}.dll", _searchOption.Value);
+
+                if (files.Length > 0)
+                {
+                    intPtr = LoadUnmanagedDllFromPath(files[0]);
+                }
+            }
+
+            return intPtr;
         }
 
         public void SetBaseAssembly(Assembly assembly)
@@ -45,6 +72,20 @@ namespace SpecialPlugin.Core
             };
         }
 
+        private Assembly PluginLoadContext_Resolving(AssemblyLoadContext arg1, AssemblyName arg2)
+        {
+            Assembly assembly = null;
+
+            string assemblyPath = _resolver.ResolveAssemblyToPath(arg2);
+
+            if (assemblyPath != null)
+            {
+                assembly = LoadFromAssemblyPath(assemblyPath);
+            }
+
+            return assembly ?? Load(_baseAssembly, arg2);
+        }
+
         private Assembly Load(Assembly baseAssembly, AssemblyName assemblyName)
         {
             if (baseAssembly == null || assemblyName == null)
@@ -61,51 +102,41 @@ namespace SpecialPlugin.Core
                 .Where(o => o.Assemblies.Any(p => assemblyNames.Contains(p.FullName)))
                 .ToList();
 
-            if (contexts != null)
+            if (contexts?.Count > 0)
             {
                 foreach (var context in contexts)
                 {
-                    if (assembly != null)
+                    var assemblyN = context._baseAssembly.GetReferencedAssemblies().FirstOrDefault(o => o.FullName == assemblyName.FullName);
+
+                    if (assemblyN != null)
                     {
-                        break;
+                        assembly = context?.LoadFromAssemblyName(assemblyN);
                     }
+                }
+            }
 
-                    assembly = context.Assemblies.FirstOrDefault(o => o.FullName == assemblyName.FullName);
+            if (assembly == null && _searchOption.HasValue)
+            {
+                string[] files = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, $"{assemblyName.Name}.dll", _searchOption.Value);
 
-                    if (assembly == null)
+                foreach (var file in files)
+                {
+                    if (AssemblyName.ReferenceMatchesDefinition(AssemblyName.GetAssemblyName(file), assemblyName))
                     {
-                        assembly = Load(context._baseAssembly, assemblyName);
+                        using FileStream fs = new FileStream(file, FileMode.Open, FileAccess.Read);
+
+                        byte[] assemblyBytes = new byte[fs.Length];
+
+                        fs.Read(assemblyBytes, 0, assemblyBytes.Length);
+
+                        assembly = Assembly.Load(assemblyBytes);
+
+                        break;
                     }
                 }
             }
 
             return assembly;
-        }
-
-        private Assembly PluginLoadContext_Resolving(AssemblyLoadContext arg1, AssemblyName arg2)
-        {
-            Assembly assembly = null;
-
-            string assemblyPath = _resolver.ResolveAssemblyToPath(arg2);
-
-            if (assemblyPath != null)
-            {
-                assembly = LoadFromAssemblyPath(assemblyPath);
-            }
-
-            return assembly ?? Load(_baseAssembly, arg2);
-        }
-
-        protected override IntPtr LoadUnmanagedDll(string unmanagedDllName)
-        {
-            string libraryPath = _resolver.ResolveUnmanagedDllToPath(unmanagedDllName);
-
-            if (libraryPath != null)
-            {
-                return LoadUnmanagedDllFromPath(libraryPath);
-            }
-
-            return IntPtr.Zero;
         }
     }
 }
